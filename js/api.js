@@ -2,7 +2,7 @@
    BIZPULSE - CENTRAL API FETCH ENGINE & JWT INTERCEPTOR
    ========================================================================== */
 
-const API_BASE_URL = "http://localhost:8080/api";
+const API_BASE_URL = "https://business-management-system-edeg.onrender.com";
 
 async function apiRequest(endpoint, options = {}) {
   const token = localStorage.getItem("token");

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Golden</title>
+
+  <!-- FontAwesome Icons & Chart.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- CSS Framework -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="brand-logo">
+          <i class="fa-solid fa-chart-line"></i>
+          <span class="brand-title">Golden</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-menu">
+        <div class="menu-label">Main Menu</div>
+        <a href="dashboard.html" class="nav-item active">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="products.html" class="nav-item">
+          <i class="fa-solid fa-boxes-stacked"></i>
+          <span>Products</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span>Orders & Sales</span>
+        </a>
+        <a href="customers.html" class="nav-item">
+          <i class="fa-solid fa-users"></i>
+          <span>Customers</span>
+        </a>
+        <a href="inventory.html" class="nav-item">
+          <i class="fa-solid fa-warehouse"></i>
+          <span>Inventory</span>
+        </a>
+
+        <div class="menu-label" style="margin-top:1rem;">Analytics & System</div>
+        <a href="reports.html" class="nav-item">
+          <i class="fa-solid fa-chart-column"></i>
+          <span>Reports</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-summary">
+          <div class="avatar">AM</div>
+          <div class="user-info">
+            <div class="user-name">Alex Morgan</div>
+            <div class="user-role">Administrator</div>
+          </div>
+          <button onclick="logoutUser()" title="Logout" style="color:#94a3b8; padding:0.25rem;">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-mobile-overlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+      <!-- Header Bar -->
+      <header class="top-header">
+        <div class="header-left">
+          <button id="sidebar-toggle-btn" class="sidebar-toggle-btn">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="header-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search dashboard...">
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button id="theme-toggle-btn" class="theme-toggle-btn" onclick="toggleTheme()">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <a href="orders.html" class="btn btn-primary btn-sm">
+            <i class="fa-solid fa-plus"></i> New Order
+          </a>
+        </div>
+      </header>
+
+      <!-- Content Body -->
+      <div class="content-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Business Dashboard</h1>
+            <p class="page-subtitle">Welcome back! Here is a real-time overview of your store performance.</p>
+          </div>
+        </div>
+
+        <!-- KPI Statistic Cards Grid -->
+        <div class="kpi-grid">
+          <div class="glass-panel kpi-card">
+            <div class="kpi-details">
+              <span class="kpi-title">Total Sales</span>
+              <span class="kpi-value" id="kpi-total-sales">$0.00</span>
+              <span class="kpi-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +12.4% vs last week</span>
+            </div>
+            <div class="kpi-icon blue"><i class="fa-solid fa-dollar-sign"></i></div>
+          </div>
+
+          <div class="glass-panel kpi-card">
+            <div class="kpi-details">
+              <span class="kpi-title">Total Orders</span>
+              <span class="kpi-value" id="kpi-total-orders">0</span>
+              <span class="kpi-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +8.2% new orders</span>
+            </div>
+            <div class="kpi-icon purple"><i class="fa-solid fa-shopping-bag"></i></div>
+          </div>
+
+          <div class="glass-panel kpi-card">
+            <div class="kpi-details">
+              <span class="kpi-title">Total Products</span>
+              <span class="kpi-value" id="kpi-total-products">0</span>
+              <span class="kpi-trend"><i class="fa-solid fa-boxes-stacked"></i> Active catalog</span>
+            </div>
+            <div class="kpi-icon green"><i class="fa-solid fa-box"></i></div>
+          </div>
+
+          <div class="glass-panel kpi-card">
+            <div class="kpi-details">
+              <span class="kpi-title">Customers</span>
+              <span class="kpi-value" id="kpi-total-customers">0</span>
+              <span class="kpi-trend up"><i class="fa-solid fa-user-plus"></i> +4 new this month</span>
+            </div>
+            <div class="kpi-icon amber"><i class="fa-solid fa-users"></i></div>
+          </div>
+
+          <div class="glass-panel kpi-card">
+            <div class="kpi-details">
+              <span class="kpi-title">Low Stock Alert</span>
+              <span class="kpi-value" id="kpi-low-stock">0</span>
+              <span class="kpi-trend down"><i class="fa-solid fa-triangle-exclamation"></i> Action required</span>
+            </div>
+            <div class="kpi-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          </div>
+        </div>
+
+        <!-- Dashboard Charts & Activity -->
+        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:1.5rem; margin-bottom:2rem;">
+          <div class="glass-panel table-card" style="padding:1.5rem;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
+              <h3 class="table-title">Sales Overview</h3>
+              <span class="badge badge-info">Weekly Trend</span>
+            </div>
+            <div style="height:280px; position:relative;">
+              <canvas id="salesOverviewChart"></canvas>
+            </div>
+          </div>
+
+          <div class="glass-panel table-card" style="padding:1.5rem;">
+            <h3 class="table-title" style="margin-bottom:1rem;">Recent Activity</h3>
+            <div id="recent-transactions-list">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Orders Table -->
+        <div class="glass-panel table-card">
+          <div class="table-header-bar">
+            <h3 class="table-title">Recent Orders</h3>
+            <a href="orders.html" class="btn btn-sm btn-outline">View All Orders</a>
+          </div>
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="dashboard-recent-orders-tbody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- JavaScript Engines -->
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

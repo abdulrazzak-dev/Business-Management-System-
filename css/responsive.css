@@ -1,0 +1,125 @@
+/* ==========================================================================
+   BIZPULSE - RESPONSIVE STYLES & MOBILE DRAWER
+   ========================================================================== */
+
+/* Collapsed Sidebar State (Tablet Mode) */
+body.sidebar-collapsed .sidebar {
+  width: var(--sidebar-collapsed-width);
+}
+
+body.sidebar-collapsed .sidebar .brand-title,
+body.sidebar-collapsed .sidebar .menu-label,
+body.sidebar-collapsed .sidebar .nav-item span,
+body.sidebar-collapsed .sidebar .user-info {
+  display: none;
+}
+
+body.sidebar-collapsed .sidebar .sidebar-header {
+  justify-content: center;
+  padding: 0;
+}
+
+body.sidebar-collapsed .sidebar .nav-item {
+  justify-content: center;
+  padding: 0.875rem 0;
+}
+
+body.sidebar-collapsed .sidebar .sidebar-footer {
+  padding: 1rem 0.5rem;
+}
+
+body.sidebar-collapsed .sidebar .user-profile-summary {
+  justify-content: center;
+  padding: 0.5rem 0;
+}
+
+body.sidebar-collapsed .main-wrapper {
+  margin-left: var(--sidebar-collapsed-width);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1024px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .header-search {
+    width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: var(--sidebar-width) !important;
+  }
+
+  body.mobile-menu-open .sidebar {
+    transform: translateX(0);
+    box-shadow: var(--shadow-xl);
+  }
+
+  body.sidebar-collapsed .sidebar .brand-title,
+  body.sidebar-collapsed .sidebar .menu-label,
+  body.sidebar-collapsed .sidebar .nav-item span,
+  body.sidebar-collapsed .sidebar .user-info {
+    display: block;
+  }
+
+  body.sidebar-collapsed .sidebar .nav-item {
+    justify-content: flex-start;
+    padding: 0.75rem 1rem;
+  }
+
+  .main-wrapper {
+    margin-left: 0 !important;
+  }
+
+  .content-body {
+    padding: 1.25rem;
+  }
+
+  .top-header {
+    padding: 0 1rem;
+  }
+
+  .header-search {
+    display: none;
+  }
+
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .table-header-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .table-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .table-actions .form-control,
+  .table-actions .btn {
+    flex: 1;
+  }
+
+  /* Overlay for mobile drawer */
+  .sidebar-mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 95;
+    display: none;
+  }
+
+  body.mobile-menu-open .sidebar-mobile-overlay {
+    display: block;
+  }
+}

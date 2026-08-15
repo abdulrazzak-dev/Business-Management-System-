@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - Golden</title>
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- CSS Framework -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="brand-logo">
+          <i class="fa-solid fa-chart-line"></i>
+          <span class="brand-title">Golden</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-menu">
+        <div class="menu-label">Main Menu</div>
+        <a href="dashboard.html" class="nav-item">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="products.html" class="nav-item">
+          <i class="fa-solid fa-boxes-stacked"></i>
+          <span>Products</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span>Orders & Sales</span>
+        </a>
+        <a href="customers.html" class="nav-item">
+          <i class="fa-solid fa-users"></i>
+          <span>Customers</span>
+        </a>
+        <a href="inventory.html" class="nav-item">
+          <i class="fa-solid fa-warehouse"></i>
+          <span>Inventory</span>
+        </a>
+
+        <div class="menu-label" style="margin-top:1rem;">Analytics & System</div>
+        <a href="reports.html" class="nav-item">
+          <i class="fa-solid fa-chart-column"></i>
+          <span>Reports</span>
+        </a>
+        <a href="settings.html" class="nav-item active">
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-summary">
+          <div class="avatar">AM</div>
+          <div class="user-info">
+            <div class="user-name">Alex Morgan</div>
+            <div class="user-role">Administrator</div>
+          </div>
+          <button onclick="logoutUser()" title="Logout" style="color:#94a3b8; padding:0.25rem;">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-mobile-overlay"></div>
+
+    <main class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button id="sidebar-toggle-btn" class="sidebar-toggle-btn">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <h2 style="font-size:1.1rem; font-weight:700;">System Settings</h2>
+        </div>
+
+        <div class="header-right">
+          <button id="theme-toggle-btn" class="theme-toggle-btn" onclick="toggleTheme()">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Business Settings & Preferences</h1>
+            <p class="page-subtitle">Configure company details, default currency, tax calculations, and appearance.</p>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:1.5rem;">
+          <!-- Business Details Form -->
+          <div class="glass-panel table-card" style="padding:1.75rem;">
+            <h3 class="table-title" style="margin-bottom:1.25rem;"><i class="fa-solid fa-building" style="color:var(--primary); margin-right:0.5rem;"></i> Business Profile & Store Info</h3>
+            
+            <form id="business-settings-form">
+              <div class="form-group">
+                <label for="settings-business-name">Business / Store Name *</label>
+                <input type="text" id="settings-business-name" class="form-control" required>
+              </div>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                <div class="form-group">
+                  <label for="settings-business-email">Business Email *</label>
+                  <input type="email" id="settings-business-email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="settings-business-phone">Support Phone</label>
+                  <input type="text" id="settings-business-phone" class="form-control">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="settings-business-address">Physical Store Address</label>
+                <textarea id="settings-business-address" class="form-control" rows="2"></textarea>
+              </div>
+
+              <hr style="border:0; border-top:1px solid var(--border-color); margin:1.5rem 0;">
+
+              <h3 class="table-title" style="margin-bottom:1.25rem;"><i class="fa-solid fa-coins" style="color:var(--secondary); margin-right:0.5rem;"></i> Financial & Tax Defaults</h3>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                <div class="form-group">
+                  <label for="settings-currency">System Currency</label>
+                  <select id="settings-currency" class="form-control">
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="GBP">GBP (£)</option>
+                    <option value="CAD">CAD (CA$)</option>
+                    <option value="AUD">AUD (A$)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="settings-tax-rate">Sales Tax Rate (%)</label>
+                  <input type="number" step="0.1" id="settings-tax-rate" class="form-control">
+                </div>
+              </div>
+
+              <div style="margin-top:1.5rem; text-align:right;">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fa-solid fa-floppy-disk"></i> Save Settings
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Theme & Quick Actions Sidebar Panel -->
+          <div style="display:flex; flex-direction:column; gap:1.5rem;">
+            <div class="glass-panel table-card" style="padding:1.5rem;">
+              <h3 class="table-title" style="margin-bottom:1rem;"><i class="fa-solid fa-palette" style="color:var(--accent); margin-right:0.5rem;"></i> Appearance</h3>
+              <p style="font-size:0.84rem; color:var(--text-muted); margin-bottom:1.25rem;">Choose between light and dark theme interfaces.</p>
+              
+              <button class="btn btn-outline" style="width:100%; justify-content:space-between;" onclick="toggleTheme()">
+                <span>Toggle Dark Mode</span>
+                <i class="fa-solid fa-circle-half-stroke"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- JavaScript Engines -->
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>

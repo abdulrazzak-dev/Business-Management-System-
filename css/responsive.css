@@ -37,10 +37,15 @@ body.sidebar-collapsed .main-wrapper {
   margin-left: var(--sidebar-collapsed-width);
 }
 
-/* Responsive Media Queries */
+/* Base Responsive Utilities & Touch Target Improvements */
 @media (max-width: 1024px) {
   .kpi-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  }
+
+  .grid-2col,
+  .grid-3col {
+    grid-template-columns: 1fr !important;
   }
   
   .header-search {
@@ -49,9 +54,21 @@ body.sidebar-collapsed .main-wrapper {
 }
 
 @media (max-width: 768px) {
+  /* Sidebar Mobile Drawer */
   .sidebar {
     transform: translateX(-100%);
-    width: var(--sidebar-width) !important;
+    width: 280px !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    box-shadow: none;
+    transition: transform var(--transition-normal);
+  }
+
+  body.mobile-menu-open {
+    overflow: hidden;
   }
 
   body.mobile-menu-open .sidebar {
@@ -73,27 +90,89 @@ body.sidebar-collapsed .main-wrapper {
 
   .main-wrapper {
     margin-left: 0 !important;
+    width: 100%;
+    max-width: 100%;
   }
 
-  .content-body {
-    padding: 1.25rem;
-  }
-
+  /* Header Mobile Optimization */
   .top-header {
-    padding: 0 1rem;
+    padding: 0 0.875rem;
   }
 
   .header-search {
     display: none;
   }
 
-  .kpi-grid {
-    grid-template-columns: 1fr;
+  .header-left h2 {
+    font-size: 0.95rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
   }
 
-  .table-header-bar {
+  .header-right {
+    gap: 0.5rem;
+  }
+
+  .header-right .btn span,
+  .header-right .btn-text-hide {
+    display: none;
+  }
+
+  /* Content Body Sizing */
+  .content-body {
+    padding: 1rem 0.875rem;
+  }
+
+  .page-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .page-header .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .page-title {
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
+  }
+
+  /* KPI Cards Responsive */
+  .kpi-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.875rem;
+  }
+
+  .kpi-card {
+    padding: 1.1rem;
+  }
+
+  .kpi-value {
+    font-size: 1.35rem;
+  }
+
+  /* Tables Mobile Optimization */
+  .table-header-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .table-header-bar > div {
+    max-width: 100% !important;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  .table-header-bar .input-icon-group,
+  .table-header-bar select,
+  .table-header-bar input {
+    width: 100% !important;
   }
 
   .table-actions {
@@ -106,6 +185,47 @@ body.sidebar-collapsed .main-wrapper {
     flex: 1;
   }
 
+  .custom-table th,
+  .custom-table td {
+    padding: 0.75rem 0.875rem;
+  }
+
+  /* Form Layout Stacking */
+  .form-row,
+  .grid-2col,
+  .grid-3col,
+  .modal-body [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Modals Mobile Sizing */
+  .modal-backdrop {
+    padding: 0.75rem;
+  }
+
+  .modal-card {
+    width: min(100%, 540px) !important;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-body {
+    padding: 1rem;
+    max-height: calc(92vh - 120px);
+  }
+
+  .modal-footer {
+    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+  }
+
+  .modal-footer .btn {
+    flex: 1;
+    min-width: 100px;
+  }
+
   /* Overlay for mobile drawer */
   .sidebar-mobile-overlay {
     position: fixed;
@@ -113,13 +233,40 @@ body.sidebar-collapsed .main-wrapper {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(15, 23, 42, 0.5);
-    backdrop-filter: blur(2px);
-    z-index: 95;
-    display: none;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(3px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-normal), visibility var(--transition-normal);
   }
 
   body.mobile-menu-open .sidebar-mobile-overlay {
-    display: block;
+    opacity: 1;
+    visibility: visible;
   }
 }
+
+@media (max-width: 480px) {
+  .top-header {
+    padding: 0 0.75rem;
+  }
+
+  .btn {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8125rem;
+  }
+
+  .btn-lg {
+    padding: 0.75rem 1.25rem;
+  }
+
+  .kpi-card {
+    padding: 1rem;
+  }
+
+  .custom-table {
+    font-size: 0.8125rem;
+  }
+}
+

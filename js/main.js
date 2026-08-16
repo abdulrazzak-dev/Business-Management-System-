@@ -97,6 +97,16 @@ function initSidebar() {
       document.body.classList.remove('mobile-menu-open');
     });
   }
+
+  // Close sidebar drawer when clicking navigation items on mobile
+  const sidebarLinks = document.querySelectorAll('.sidebar .nav-item');
+  sidebarLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        document.body.classList.remove('mobile-menu-open');
+      }
+    });
+  });
 }
 
 function highlightActiveNavLink() {

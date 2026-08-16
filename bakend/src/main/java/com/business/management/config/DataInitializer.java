@@ -29,14 +29,14 @@ public class DataInitializer implements CommandLineRunner {
         if (userRepository.count() == 0) {
             User admin = User.builder()
                     .name("Alex Morgan")
-                    .email("admin@bizpulse.com")
+                    .email("admin@Golden.com")
                     .password(passwordEncoder.encode("admin123"))
                     .role(User.Role.ADMIN)
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build();
             userRepository.save(admin);
-            System.out.println(">>> Sample Admin User created: admin@bizpulse.com / admin123");
+            System.out.println(">>> Sample Admin User created: admin@Golden.com / admin123");
         }
 
         // Seed Products

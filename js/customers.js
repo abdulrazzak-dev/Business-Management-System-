@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BIZPULSE - CUSTOMER MANAGEMENT CONTROLLER (REST API)
+   Golden - CUSTOMER MANAGEMENT CONTROLLER (REST API)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BIZPULSE - INVENTORY CONTROL & STOCK MANAGEMENT (REST API)
+   Golden - INVENTORY CONTROL & STOCK MANAGEMENT (REST API)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -27,7 +27,7 @@ function initInventoryPage() {
 
 async function renderInventoryOverviewCards() {
   try {
-    const products = await apiRequest('/inventory') || [];
+    const products = await apiRequest('api/inventory') || [];
     cachedInventoryList = products;
 
     const inStock = products.filter(p => p.status === 'IN_STOCK').length;

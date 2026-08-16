@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BIZPULSE - LOGIN & AUTHENTICATION SCRIPT (REST API INTEGRATION)
+   Golden - LOGIN & AUTHENTICATION SCRIPT (REST API INTEGRATION)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {

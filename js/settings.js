@@ -19,7 +19,7 @@ function initSettingsPage() {
 
 async function loadBusinessSettings() {
   try {
-    const settings = await apiRequest('/settings');
+    const settings = await apiRequest('/api/settings');
     if (!settings) return;
 
     const nameEl = document.getElementById('settings-business-name');
@@ -55,7 +55,7 @@ async function handleSettingsFormSubmit(e) {
   };
 
   try {
-    await apiRequest('/settings', {
+    await apiRequest('/api/settings', {
       method: 'PUT',
       body: JSON.stringify(payload)
     });

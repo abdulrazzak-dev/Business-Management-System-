@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BIZPULSE - CENTRAL API FETCH ENGINE & JWT INTERCEPTOR
+   Golden - CENTRAL API FETCH ENGINE & JWT INTERCEPTOR
    ========================================================================== */
 
 const API_BASE_URL = "https://business-management-system-edeg.onrender.com";

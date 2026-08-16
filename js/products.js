@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BIZPULSE - PRODUCT MANAGEMENT CONTROLLER (REST API)
+   Golden - PRODUCT MANAGEMENT CONTROLLER (REST API)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -148,13 +148,13 @@ async function handleProductFormSubmit(e) {
 
   try {
     if (currentEditingProductId) {
-      await apiRequest(`/products/${currentEditingProductId}`, {
+      await apiRequest(`/api/products/${currentEditingProductId}`, {
         method: 'PUT',
         body: JSON.stringify(payload)
       });
       showToast(`Product "${name}" updated successfully`, 'success');
     } else {
-      await apiRequest('/products', {
+      await apiRequest('/api/products', {
         method: 'POST',
         body: JSON.stringify(payload)
       });
@@ -178,7 +178,7 @@ function confirmDeleteProduct(productId) {
     confirmText: 'Delete Product',
     onConfirm: async () => {
       try {
-        await apiRequest(`/products/${productId}`, { method: 'DELETE' });
+        await apiRequest(`/api/products/${productId}`, { method: 'DELETE' });
         showToast(`Product "${p.name}" deleted`, 'danger');
         renderProductTable();
       } catch (err) {

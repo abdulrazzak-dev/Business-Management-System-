@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BIZPULSE - DASHBOARD ANALYTICS & RECENT ACTIVITY (REST API)
+   Golden - DASHBOARD ANALYTICS & RECENT ACTIVITY (REST API)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,7 +12,7 @@ let salesChartInstance = null;
 
 async function loadDashboardData() {
   try {
-    const data = await apiRequest('/dashboard');
+    const data = await apiRequest('/api/dashboard');
     if (!data) return;
 
     // Render Metric KPIs

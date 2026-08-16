@@ -1,14 +1,14 @@
 /* ==========================================================================
-   BIZPULSE - LOCALSTORAGE STATE ENGINE & SEED DATA
+   Golden - LOCALSTORAGE STATE ENGINE & SEED DATA
    ========================================================================== */
 
 const STORAGE_KEYS = {
-  SETTINGS: 'bizpulse_settings',
-  PRODUCTS: 'bizpulse_products',
-  CUSTOMERS: 'bizpulse_customers',
-  ORDERS: 'bizpulse_orders',
-  SESSION: 'bizpulse_session',
-  THEME: 'bizpulse_theme'
+  SETTINGS: 'Golden_settings',
+  PRODUCTS: 'Golden_products',
+  CUSTOMERS: 'Golden_customers',
+  ORDERS: 'Golden_orders',
+  SESSION: 'Golden_session',
+  THEME: 'Golden_theme'
 };
 
 // Initial Seed Data

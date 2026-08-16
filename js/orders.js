@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BIZPULSE - SALES & ORDERS MANAGEMENT ENGINE (REST API)
+   Golden - SALES & ORDERS MANAGEMENT ENGINE (REST API)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -36,7 +36,7 @@ async function renderOrdersTable() {
     if (statusVal) queryParams.append('status', statusVal);
 
     const queryString = queryParams.toString() ? `?${queryParams.toString()}` : '';
-    const orders = await apiRequest(`/orders${queryString}`);
+    const orders = await apiRequest(`/api/orders${queryString}`);
 
     if (!orders || orders.length === 0) {
       tbody.innerHTML = `
@@ -81,8 +81,8 @@ async function renderOrdersTable() {
 
 async function loadOrderFormDropdowns() {
   try {
-    availableCustomersList = await apiRequest('/customers') || [];
-    availableProductsList = await apiRequest('/products') || [];
+    availableCustomersList = await apiRequest('/api/customers') || [];
+    availableProductsList = await apiRequest('/api/products') || [];
 
     const custSelect = document.getElementById('order-customer-select');
     if (custSelect) {
@@ -221,7 +221,7 @@ async function submitNewOrder(e) {
   };
 
   try {
-    const createdOrder = await apiRequest('/orders', {
+    const createdOrder = await apiRequest('/api/orders', {
       method: 'POST',
       body: JSON.stringify(payload)
     });
@@ -237,7 +237,7 @@ async function submitNewOrder(e) {
 
 async function viewOrderDetails(orderId) {
   try {
-    const ord = await apiRequest(`/orders/${orderId}`);
+    const ord = await apiRequest(`/api/orders/${orderId}`);
     if (!ord) return;
 
     const modalBody = document.getElementById('view-order-details-body');

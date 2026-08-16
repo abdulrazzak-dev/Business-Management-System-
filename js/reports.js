@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BIZPULSE - REPORTS & ANALYTICS CHARTS ENGINE (REST API)
+   Golden - REPORTS & ANALYTICS CHARTS ENGINE (REST API)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -33,7 +33,7 @@ function initReportsPage() {
 
 async function renderReportSummaryCards() {
   try {
-    const summary = await apiRequest('/reports/revenue-summary');
+    const summary = await apiRequest('/api/reports/revenue-summary');
     if (!summary) return;
 
     const dailyEl = document.getElementById('report-daily-revenue');
@@ -51,7 +51,7 @@ async function renderRevenueTrendChart(period = 'weekly') {
   if (!canvas) return;
 
   try {
-    const reportData = await apiRequest(`/reports/${period}`);
+    const reportData = await apiRequest(`/api/reports/${period}`);
     const ctx = canvas.getContext('2d');
     if (revenueChartInstance) revenueChartInstance.destroy();
 
@@ -93,7 +93,7 @@ async function renderTopSellingProductsChart() {
   if (!canvas) return;
 
   try {
-    const topList = await apiRequest('/reports/top-products') || [];
+    const topList = await apiRequest('/api/reports/top-products') || [];
     const ctx = canvas.getContext('2d');
     if (topProductsChartInstance) topProductsChartInstance.destroy();
 

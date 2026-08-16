@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BIZPULSE - MAIN UI CONTROLLER, MODAL ENGINE & TOAST SYSTEM
+   Golden - MAIN UI CONTROLLER, MODAL ENGINE & TOAST SYSTEM
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -58,7 +58,7 @@ function showToast(message, type = 'info', title = '') {
 
 // Theme Engine
 function initTheme() {
-  const savedTheme = localStorage.getItem('bizpulse_theme') || 'light';
+  const savedTheme = localStorage.getItem('Golden_theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
   updateThemeIcon(savedTheme);
 }
@@ -67,7 +67,7 @@ function toggleTheme() {
   const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
   const newTheme = currentTheme === 'light' ? 'dark' : 'light';
   document.documentElement.setAttribute('data-theme', newTheme);
-  localStorage.setItem('bizpulse_theme', newTheme);
+  localStorage.setItem('Golden_theme', newTheme);
   updateThemeIcon(newTheme);
   showToast(`Switched to ${newTheme} mode`, 'info');
 }

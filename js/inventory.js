@@ -125,7 +125,7 @@ async function renderInventoryTable() {
 
 async function quickRestock(productId, amount) {
   try {
-    await apiRequest(`/inventory/${productId}`, {
+    await apiRequest(`/api/inventory/${productId}`, {
       method: 'PATCH',
       body: JSON.stringify({ stockChange: amount, actionType: 'add' })
     });
@@ -162,7 +162,7 @@ async function handleStockAdjustmentSubmit(e) {
   }
 
   try {
-    await apiRequest(`/inventory/${currentAdjustingProductId}`, {
+    await apiRequest(`/api/inventory/${currentAdjustingProductId}`, {
       method: 'PATCH',
       body: JSON.stringify({ stockChange, actionType })
     });

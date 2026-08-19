@@ -83,8 +83,9 @@ function updateThemeIcon(theme) {
 function initSidebar() {
   const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
   if (sidebarToggleBtn) {
-    sidebarToggleBtn.addEventListener('click', () => {
-      if (window.innerWidth <= 768) {
+    sidebarToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (window.innerWidth <= 992) {
         document.body.classList.toggle('mobile-menu-open');
       } else {
         document.body.classList.toggle('sidebar-collapsed');
@@ -103,7 +104,7 @@ function initSidebar() {
   const sidebarLinks = document.querySelectorAll('.sidebar .nav-item');
   sidebarLinks.forEach(link => {
     link.addEventListener('click', () => {
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 992) {
         document.body.classList.remove('mobile-menu-open');
       }
     });

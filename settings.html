@@ -199,6 +199,49 @@
             </div>
           </div>
 
+          <!-- Create Admin & User Management Card (Admin Only) -->
+          <div id="create-admin-card" class="glass-panel table-card" style="margin-top:1.5rem;">
+            <div class="table-header-bar">
+              <h3 class="table-title">
+                <i class="fa-solid fa-user-shield" style="color:var(--primary); margin-right:0.5rem;"></i>
+                Admin & User Management
+              </h3>
+            </div>
+            <div style="padding:1.5rem;">
+              <form id="create-admin-form">
+                <div class="form-group">
+                  <label for="admin-full-name">Full Name *</label>
+                  <input type="text" id="admin-full-name" class="form-control" placeholder="e.g. Jane Doe" required>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                  <div class="form-group">
+                    <label for="admin-email">Email Address *</label>
+                    <input type="email" id="admin-email" class="form-control" placeholder="admin@business.com" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="admin-password">Initial Password *</label>
+                    <input type="password" id="admin-password" class="form-control" placeholder="Minimum 6 characters" minlength="6" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="admin-role-select">User Role</label>
+                  <select id="admin-role-select" class="form-control" disabled>
+                    <option value="ADMIN" selected>ADMIN (System Administrator)</option>
+                  </select>
+                </div>
+
+                <div style="margin-top:1.5rem; text-align:right;">
+                  <button type="submit" class="btn btn-primary" id="create-admin-btn">
+                    <i class="fa-solid fa-user-plus"></i> + Create New Admin
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
           <!-- Theme & Quick Actions Sidebar Panel -->
           <div style="display:flex; flex-direction:column; gap:1.5rem;">
             <div class="glass-panel table-card" style="padding:1.5rem;">

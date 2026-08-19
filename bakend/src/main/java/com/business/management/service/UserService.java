@@ -51,4 +51,28 @@ public class UserService {
                 .role(currentUser.getRole().name())
                 .build();
     }
+
+    public LoginResponse.UserDto createAdminAccount(CreateAdminRequest request) {
+        if (userRepository.existsByEmail(request.getEmail().trim())) {
+            throw new BadRequestException("Email address is already in use: " + request.getEmail());
+        }
+
+        User newAdmin = User.builder()
+                .name(request.getName().trim())
+                .email(request.getEmail().trim().toLowerCase())
+                .password(passwordEncoder.encode(request.getPassword().trim()))
+                .role(User.Role.ADMIN)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        userRepository.save(newAdmin);
+
+        return LoginResponse.UserDto.builder()
+                .id(newAdmin.getId())
+                .name(newAdmin.getName())
+                .email(newAdmin.getEmail())
+                .role(newAdmin.getRole().name())
+                .build();
+    }
 }

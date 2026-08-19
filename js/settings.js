@@ -22,6 +22,11 @@ function initSettingsPage() {
   if (form) {
     form.addEventListener('submit', handleSettingsFormSubmit);
   }
+
+  const createAdminForm = document.getElementById('create-admin-form');
+  if (createAdminForm) {
+    createAdminForm.addEventListener('submit', handleCreateAdminFormSubmit);
+  }
 }
 
 function loadUserProfile() {
@@ -53,6 +58,7 @@ function enforceSettingsPermissions() {
   }
 
   const businessCard = document.getElementById('business-settings-card');
+  const createAdminCard = document.getElementById('create-admin-card');
   const nameEl = document.getElementById('settings-business-name');
   const emailEl = document.getElementById('settings-business-email');
   const phoneEl = document.getElementById('settings-business-phone');
@@ -64,6 +70,9 @@ function enforceSettingsPermissions() {
   if (!isAdmin) {
     if (businessCard) {
       businessCard.style.display = 'none';
+    }
+    if (createAdminCard) {
+      createAdminCard.style.display = 'none';
     }
 
     [nameEl, emailEl, phoneEl, addressEl, taxEl, currencyEl].forEach(el => {
@@ -83,6 +92,9 @@ function enforceSettingsPermissions() {
   } else {
     if (businessCard) {
       businessCard.style.display = 'block';
+    }
+    if (createAdminCard) {
+      createAdminCard.style.display = 'block';
     }
   }
 }
@@ -187,5 +199,37 @@ async function handleSettingsFormSubmit(e) {
     showToast('Business settings updated!', 'success');
   } catch (err) {
     showToast(err.message || 'Error updating settings', 'danger');
+  }
+}
+
+async function handleCreateAdminFormSubmit(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('admin-full-name').value.trim();
+  const email = document.getElementById('admin-email').value.trim();
+  const password = document.getElementById('admin-password').value.trim();
+
+  if (!name || !email || !password) {
+    showToast('Please fill in all fields to create an administrator', 'warning');
+    return;
+  }
+
+  if (password.length < 6) {
+    showToast('Password must be at least 6 characters long', 'warning');
+    return;
+  }
+
+  const payload = { name, email, password };
+
+  try {
+    const newAdmin = await apiRequest('/api/users/create-admin', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+
+    showToast(`New administrator "${newAdmin.name || name}" created successfully!`, 'success');
+    document.getElementById('create-admin-form').reset();
+  } catch (err) {
+    showToast(err.message || 'Failed to create administrator account', 'danger');
   }
 }

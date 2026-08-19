@@ -23,4 +23,9 @@ public class UserController {
     ) {
         return ResponseEntity.ok(userService.updateUserProfile(authentication, request));
     }
+
+    @PostMapping("/create-admin")
+    public ResponseEntity<LoginResponse.UserDto> createAdmin(@Valid @RequestBody com.business.management.dto.CreateAdminRequest request) {
+        return ResponseEntity.ok(userService.createAdminAccount(request));
+    }
 }

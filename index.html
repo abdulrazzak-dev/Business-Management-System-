@@ -111,6 +111,7 @@
         Email: <code>admin@Golden.com</code> | Password: <code>admin123</code>
       </div>
 
+      <!-- Login Form -->
       <form id="login-form">
         <div class="form-group">
           <label for="email">Email or Username</label>
@@ -139,6 +140,46 @@
         <button type="submit" class="btn btn-primary btn-lg" style="width:100%; margin-top:1.5rem;">
           <i class="fa-solid fa-right-to-bracket"></i> Sign In to Dashboard
         </button>
+
+        <div style="text-align:center; margin-top:1.25rem; font-size:0.875rem; color:var(--text-muted);">
+          Don't have an account? <a href="#" id="show-register-link" style="color:var(--primary); font-weight:600;">Sign Up</a>
+        </div>
+      </form>
+
+      <!-- Register Form (Hidden by Default) -->
+      <form id="register-form" style="display:none;">
+        <div class="form-group">
+          <label for="reg-name">Full Name</label>
+          <div class="input-icon-group">
+            <i class="fa-regular fa-user"></i>
+            <input type="text" id="reg-name" class="form-control" placeholder="John Doe" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email">Email Address</label>
+          <div class="input-icon-group">
+            <i class="fa-regular fa-envelope"></i>
+            <input type="email" id="reg-email" class="form-control" placeholder="john@business.com" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-password">Password</label>
+          <div class="input-icon-group">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="reg-password" class="form-control" placeholder="At least 6 characters" required>
+            <i class="fa-regular fa-eye password-toggle" id="toggle-reg-password"></i>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%; margin-top:1.5rem;">
+          <i class="fa-solid fa-user-plus"></i> Create Account
+        </button>
+
+        <div style="text-align:center; margin-top:1.25rem; font-size:0.875rem; color:var(--text-muted);">
+          Already have an account? <a href="#" id="show-login-link" style="color:var(--primary); font-weight:600;">Sign In</a>
+        </div>
       </form>
     </div>
   </div>

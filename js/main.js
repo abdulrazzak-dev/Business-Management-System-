@@ -132,6 +132,43 @@ function checkAuthSession() {
     window.location.href = 'index.html';
   } else if (token && isLoginPage) {
     window.location.href = 'dashboard.html';
+  } else if (token) {
+    updateSidebarUserProfile();
+  }
+}
+
+function updateSidebarUserProfile() {
+  const userJson = localStorage.getItem('user');
+  if (!userJson) return;
+
+  try {
+    const user = JSON.parse(userJson);
+    const avatarEl = document.querySelector('.sidebar-footer .avatar');
+    const nameEl = document.querySelector('.sidebar-footer .user-name');
+    const roleEl = document.querySelector('.sidebar-footer .user-role');
+
+    if (nameEl && user.name) {
+      nameEl.textContent = user.name;
+    }
+
+    if (roleEl && user.role) {
+      roleEl.textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1).toLowerCase();
+    }
+
+    if (avatarEl && user.name) {
+      const nameParts = user.name.trim().split(/\s+/);
+      let initials = '';
+      if (nameParts.length >= 2) {
+        initials = (nameParts[0][0] + nameParts[nameParts.length - 1][0]).toUpperCase();
+      } else if (nameParts.length === 1 && nameParts[0].length > 0) {
+        initials = nameParts[0].substring(0, 2).toUpperCase();
+      }
+      if (initials) {
+        avatarEl.textContent = initials;
+      }
+    }
+  } catch (err) {
+    console.error('Error updating sidebar user profile:', err);
   }
 }
 

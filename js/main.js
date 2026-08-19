@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initToastContainer();
   highlightActiveNavLink();
   checkAuthSession();
+  initOmniSearch();
 });
 
 // Toast Engine
@@ -232,4 +233,108 @@ function showConfirmModal({ title, message, confirmText = 'Delete', onConfirm })
   };
 
   openModal('global-confirm-modal');
+}
+
+// Omni-Search Engine
+let omniSearchDebounceTimer = null;
+
+function initOmniSearch() {
+  const searchInput = document.querySelector('.header-search input');
+  const searchContainer = document.querySelector('.header-search');
+  if (!searchInput || !searchContainer) return;
+
+  let dropdown = document.getElementById('omni-search-dropdown');
+  if (!dropdown) {
+    dropdown = document.createElement('div');
+    dropdown.id = 'omni-search-dropdown';
+    dropdown.className = 'omni-search-dropdown';
+    searchContainer.appendChild(dropdown);
+  }
+
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.trim();
+    clearTimeout(omniSearchDebounceTimer);
+
+    if (query.length < 2) {
+      dropdown.classList.remove('show');
+      dropdown.innerHTML = '';
+      return;
+    }
+
+    omniSearchDebounceTimer = setTimeout(() => {
+      fetchOmniSearchResults(query, dropdown);
+    }, 300);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!searchContainer.contains(e.target)) {
+      dropdown.classList.remove('show');
+    }
+  });
+
+  searchInput.addEventListener('focus', () => {
+    if (dropdown.children.length > 0 && searchInput.value.trim().length >= 2) {
+      dropdown.classList.add('show');
+    }
+  });
+}
+
+async function fetchOmniSearchResults(query, dropdown) {
+  try {
+    const data = await apiRequest(`/api/search?q=${encodeURIComponent(query)}`);
+    if (!data) {
+      dropdown.classList.remove('show');
+      return;
+    }
+
+    const categories = [
+      { key: 'products', title: 'Products', icon: 'fa-boxes-stacked' },
+      { key: 'orders', title: 'Orders', icon: 'fa-cart-shopping' },
+      { key: 'customers', title: 'Customers', icon: 'fa-users' },
+      { key: 'inventory', title: 'Inventory', icon: 'fa-warehouse' },
+      { key: 'activity', title: 'Activity', icon: 'fa-clock-rotate-left' }
+    ];
+
+    let html = '';
+    let totalMatches = 0;
+
+    categories.forEach(cat => {
+      const items = data[cat.key] || [];
+      if (items.length > 0) {
+        totalMatches += items.length;
+        html += `
+          <div class="omni-search-group">
+            <div class="omni-search-group-header">
+              <i class="fa-solid ${cat.icon}"></i> ${cat.title}
+            </div>
+            ${items.map(item => `
+              <a href="${item.url}" class="omni-search-item">
+                <div class="omni-search-item-main">
+                  <div class="omni-search-item-title">${item.title}</div>
+                  <div class="omni-search-item-subtitle">${item.subtitle}</div>
+                </div>
+                <div class="omni-search-item-details">${item.details}</div>
+              </a>
+            `).join('')}
+          </div>
+        `;
+      }
+    });
+
+    if (totalMatches === 0) {
+      dropdown.innerHTML = `
+        <div style="padding:1rem; text-align:center; color:var(--text-muted); font-size:0.85rem;">
+          <i class="fa-solid fa-magnifying-glass" style="margin-bottom:0.25rem;"></i>
+          <p>No results found for "${query}"</p>
+        </div>
+      `;
+    } else {
+      dropdown.innerHTML = html;
+    }
+
+    dropdown.classList.add('show');
+  } catch (err) {
+    console.error('Omni-search error:', err);
+    dropdown.classList.remove('show');
+  }
 }

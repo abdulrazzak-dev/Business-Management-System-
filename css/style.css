@@ -466,3 +466,88 @@ select.form-control {
   margin-bottom: 0.75rem;
   display: inline-block;
 }
+
+/* Omni Search Dropdown Overlay */
+.header-search {
+  position: relative;
+}
+
+.omni-search-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  min-width: 380px;
+  max-height: 480px;
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xl);
+  z-index: 1000;
+  display: none;
+  padding: 0.5rem 0;
+}
+
+.omni-search-dropdown.show {
+  display: block;
+}
+
+.omni-search-group {
+  margin-bottom: 0.5rem;
+}
+
+.omni-search-group-header {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background: var(--bg-surface-subtle);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.omni-search-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.85rem;
+  text-decoration: none;
+  color: var(--text-main);
+  transition: background 0.15s ease;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.omni-search-item:last-child {
+  border-bottom: none;
+}
+
+.omni-search-item:hover {
+  background: var(--primary-light);
+}
+
+.omni-search-item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.omni-search-item-title {
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.omni-search-item-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.omni-search-item-details {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-align: right;
+}

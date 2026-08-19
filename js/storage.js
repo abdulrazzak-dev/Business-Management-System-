@@ -158,10 +158,10 @@ class StorageEngine {
   // Currency Formatter
   formatCurrency(amount) {
     const settings = this.getSettings();
-    const currency = settings.currency || 'USD';
-    const symbolMap = { USD: '$', EUR: '€', GBP: '£', CAD: 'CA$', AUD: 'A$' };
-    const symbol = symbolMap[currency] || '$';
-    return `${symbol}${Number(amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    const currency = settings.currency || 'INR';
+    const symbolMap = { INR: 'Rs. ', USD: '$', EUR: '€', GBP: '£', CAD: 'CA$', AUD: 'A$' };
+    const symbol = symbolMap[currency] || 'Rs. ';
+    return `${symbol}${Number(amount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   }
 }
 

@@ -38,7 +38,7 @@ async function loadDashboardData() {
 }
 
 function formatCurrency(amount) {
-  return `$${Number(amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  return `Rs. ${Number(amount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 function renderRecentTransactions(orders) {
@@ -120,7 +120,7 @@ function renderSalesOverviewChart(salesOverview) {
       labels: labels,
       datasets: [
         {
-          label: 'Revenue ($)',
+          label: 'Revenue (Rs.)',
           data: revenueData,
           borderColor: '#3b82f6',
           backgroundColor: 'rgba(59, 130, 246, 0.1)',

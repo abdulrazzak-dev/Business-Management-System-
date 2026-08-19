@@ -57,7 +57,7 @@ async function renderCustomersTable() {
             <div style="font-size:0.75rem; color:var(--text-muted);">${c.phone}</div>
           </td>
           <td><span class="badge badge-info">${c.ordersCount || 0} Orders</span></td>
-          <td><strong>$${Number(c.totalPurchases || 0).toFixed(2)}</strong></td>
+          <td><strong>Rs. ${Number(c.totalPurchases || 0).toFixed(2)}</strong></td>
           <td>
             <div style="display:flex; gap:0.35rem;">
               <button class="btn btn-sm btn-outline" onclick="openEditCustomerModal('${c.id}')" title="Edit Customer">

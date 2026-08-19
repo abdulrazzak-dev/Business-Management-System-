@@ -64,7 +64,7 @@ async function renderOrdersTable() {
           <td>${ord.customerName || 'Walk-in Customer'}</td>
           <td>${formattedDate}</td>
           <td>${totalQty} items</td>
-          <td><strong>$${Number(ord.totalAmount).toFixed(2)}</strong></td>
+          <td><strong>Rs. ${Number(ord.totalAmount).toFixed(2)}</strong></td>
           <td><span class="badge ${badgeClass}"><span class="badge-dot"></span>${ord.status}</span></td>
           <td>
             <button class="btn btn-sm btn-outline" onclick="viewOrderDetails('${ord.id}')" title="View Order">
@@ -94,7 +94,7 @@ async function loadOrderFormDropdowns() {
     if (prodSelect) {
       const inStockProducts = availableProductsList.filter(p => p.stockQuantity > 0);
       prodSelect.innerHTML = `<option value="">Choose item to add...</option>` +
-        inStockProducts.map(p => `<option value="${p.id}">${p.name} - $${Number(p.price).toFixed(2)} (Stock: ${p.stockQuantity})</option>`).join('');
+        inStockProducts.map(p => `<option value="${p.id}">${p.name} - Rs. ${Number(p.price).toFixed(2)} (Stock: ${p.stockQuantity})</option>`).join('');
     }
   } catch (err) {}
 }
@@ -162,9 +162,9 @@ function renderCartTable() {
 
   if (cartItems.length === 0) {
     container.innerHTML = `<tr><td colspan="5" class="table-empty-state" style="padding:1.5rem;"><p>No items added to order yet.</p></td></tr>`;
-    if (subtotalEl) subtotalEl.textContent = "$0.00";
-    if (taxEl) taxEl.textContent = "$0.00";
-    if (totalEl) totalEl.textContent = "$0.00";
+    if (subtotalEl) subtotalEl.textContent = "Rs. 0.00";
+    if (taxEl) taxEl.textContent = "Rs. 0.00";
+    if (totalEl) totalEl.textContent = "Rs. 0.00";
     return;
   }
 
@@ -176,9 +176,9 @@ function renderCartTable() {
     return `
       <tr>
         <td><strong>${item.productName}</strong></td>
-        <td>$${Number(item.price).toFixed(2)}</td>
+        <td>Rs. ${Number(item.price).toFixed(2)}</td>
         <td>${item.quantity}</td>
-        <td><strong>$${Number(itemTotal).toFixed(2)}</strong></td>
+        <td><strong>Rs. ${Number(itemTotal).toFixed(2)}</strong></td>
         <td>
           <button class="btn btn-sm" style="color:var(--status-danger);" onclick="removeCartItem('${item.productId}')">
             <i class="fa-solid fa-xmark"></i>
@@ -191,9 +191,9 @@ function renderCartTable() {
   const tax = subtotal * 0.085;
   const total = subtotal + tax;
 
-  if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
-  if (taxEl) taxEl.textContent = `$${tax.toFixed(2)}`;
-  if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
+  if (subtotalEl) subtotalEl.textContent = `Rs. ${subtotal.toFixed(2)}`;
+  if (taxEl) taxEl.textContent = `Rs. ${tax.toFixed(2)}`;
+  if (totalEl) totalEl.textContent = `Rs. ${total.toFixed(2)}`;
 }
 
 async function submitNewOrder(e) {
@@ -274,17 +274,17 @@ async function viewOrderDetails(orderId) {
             <tr>
               <td>${i.productName}</td>
               <td>${i.quantity}</td>
-              <td>$${Number(i.price).toFixed(2)}</td>
-              <td>$${Number(i.subtotal || i.price * i.quantity).toFixed(2)}</td>
+              <td>Rs. ${Number(i.price).toFixed(2)}</td>
+              <td>Rs. ${Number(i.subtotal || i.price * i.quantity).toFixed(2)}</td>
             </tr>
           `).join('')}
         </tbody>
       </table>
 
       <div style="display:flex; flex-direction:column; align-items:flex-end; gap:0.25rem; font-size:0.875rem;">
-        <div>Subtotal: <strong>$${Number(ord.subtotal).toFixed(2)}</strong></div>
-        <div>Estimated Tax: <strong>$${Number(ord.tax).toFixed(2)}</strong></div>
-        <div style="font-size:1.1rem; font-weight:800; color:var(--primary); margin-top:0.25rem;">Total Paid: $${Number(ord.totalAmount).toFixed(2)}</div>
+        <div>Subtotal: <strong>Rs. ${Number(ord.subtotal).toFixed(2)}</strong></div>
+        <div>Estimated Tax: <strong>Rs. ${Number(ord.tax).toFixed(2)}</strong></div>
+        <div style="font-size:1.1rem; font-weight:800; color:var(--primary); margin-top:0.25rem;">Total Paid: Rs. ${Number(ord.totalAmount).toFixed(2)}</div>
       </div>
     `;
 

@@ -70,7 +70,7 @@ async function renderProductTable() {
           <td><strong>${p.sku || p.id}</strong></td>
           <td><div style="font-weight:700;">${p.name}</div></td>
           <td><span class="badge badge-info">${p.category}</span></td>
-          <td><strong>$${Number(p.price).toFixed(2)}</strong></td>
+          <td><strong>Rs. ${Number(p.price).toFixed(2)}</strong></td>
           <td>
             <div style="display:flex; align-items:center; gap:0.5rem;">
               <span>${p.stockQuantity} units</span>

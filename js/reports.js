@@ -40,9 +40,9 @@ async function renderReportSummaryCards() {
     const totalEl = document.getElementById('report-total-revenue');
     const avgEl = document.getElementById('report-avg-order-value');
 
-    if (dailyEl) dailyEl.textContent = `$${Number(summary.dailyRevenue || 0).toFixed(2)}`;
-    if (totalEl) totalEl.textContent = `$${Number(summary.totalRevenue || 0).toFixed(2)}`;
-    if (avgEl) avgEl.textContent = `$${Number(summary.averageOrderValue || 0).toFixed(2)}`;
+    if (dailyEl) dailyEl.textContent = `Rs. ${Number(summary.dailyRevenue || 0).toFixed(2)}`;
+    if (totalEl) totalEl.textContent = `Rs. ${Number(summary.totalRevenue || 0).toFixed(2)}`;
+    if (avgEl) avgEl.textContent = `Rs. ${Number(summary.averageOrderValue || 0).toFixed(2)}`;
   } catch (err) {
     console.error("Error loading report summary cards:", err);
   }

@@ -1,4 +1,4 @@
-# 📊 BizPulse - Small Business Management System
+# 📊 Golden - Small Business Management System
 
 A comprehensive Full-Stack Business Management application designed to streamline daily retail and wholesale operations. Built with a robust **Spring Boot** backend, **MongoDB Cloud (Atlas)** database, and an intuitive responsive frontend deployed on **Vercel**.
 

@@ -44,15 +44,20 @@
   letter-spacing: -0.02em;
 }
 
-.brand-logo i {
+.brand-logo i,
+.brand-img {
   width: 36px;
   height: 36px;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: #ffffff;
+  object-fit: cover;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.brand-logo i {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #ffffff;
   font-size: 1.1rem;
   box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
 }

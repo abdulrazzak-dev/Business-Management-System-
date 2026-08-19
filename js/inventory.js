@@ -27,7 +27,7 @@ function initInventoryPage() {
 
 async function renderInventoryOverviewCards() {
   try {
-    const products = await apiRequest('api/inventory') || [];
+    const products = await apiRequest('/api/inventory') || [];
     cachedInventoryList = products;
 
     const inStock = products.filter(p => p.status === 'IN_STOCK').length;
@@ -52,7 +52,7 @@ async function renderInventoryTable() {
   const filterVal = document.getElementById('inventory-filter')?.value || 'all';
 
   try {
-    let endpoint = '/inventory';
+    let endpoint = '/api/inventory';
     if (filterVal === 'low') endpoint = '/api/inventory/low-stock';
     else if (filterVal === 'out') endpoint = '/api/inventory/out-of-stock';
 

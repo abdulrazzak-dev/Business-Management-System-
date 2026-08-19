@@ -179,7 +179,7 @@ function confirmDeleteProduct(productId) {
     onConfirm: async () => {
       try {
         await apiRequest(`/api/products/${productId}`, { method: 'DELETE' });
-        showToast(`Product "${p.name}" deleted`, 'danger');
+        showToast(`Product "${p.name}" deleted`, 'success');
         renderProductTable();
       } catch (err) {
         showToast(err.message || 'Error deleting product', 'danger');

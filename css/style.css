@@ -467,6 +467,26 @@ select.form-control {
   display: inline-block;
 }
 
+/* Global Sidebar Scrollbar Hiding */
+.sidebar,
+aside.sidebar,
+#sidebar {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.sidebar::-webkit-scrollbar,
+aside.sidebar::-webkit-scrollbar,
+#sidebar::-webkit-scrollbar,
+.sidebar-menu::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
 /* Omni Search Dropdown Overlay */
 .header-search {
   position: relative;

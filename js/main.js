@@ -307,15 +307,27 @@ async function fetchOmniSearchResults(query, dropdown) {
             <div class="omni-search-group-header">
               <i class="fa-solid ${cat.icon}"></i> ${cat.title}
             </div>
-            ${items.map(item => `
-              <a href="${item.url}" class="omni-search-item">
-                <div class="omni-search-item-main">
-                  <div class="omni-search-item-title">${item.title}</div>
-                  <div class="omni-search-item-subtitle">${item.subtitle}</div>
-                </div>
-                <div class="omni-search-item-details">${item.details}</div>
-              </a>
-            `).join('')}
+            ${items.map(item => {
+              const statusUpper = (item.status || '').toUpperCase();
+              let pillClass = 'omni-search-status-default';
+              if (statusUpper === 'COMPLETED') pillClass = 'omni-search-status-completed';
+              else if (statusUpper === 'PENDING') pillClass = 'omni-search-status-pending';
+              else if (statusUpper === 'PROCESSING') pillClass = 'omni-search-status-processing';
+              else if (statusUpper === 'LOW STOCK') pillClass = 'omni-search-status-pending';
+
+              return `
+                <a href="${item.url}" class="omni-search-item">
+                  <div class="omni-search-item-left">
+                    <div class="omni-search-item-title">${item.title}</div>
+                    <div class="omni-search-item-subtitle">${item.subtitle}</div>
+                  </div>
+                  <div class="omni-search-item-right">
+                    <div class="omni-search-item-price">${item.details || ''}</div>
+                    ${item.status ? `<span class="omni-search-status-pill ${pillClass}">${item.status}</span>` : ''}
+                  </div>
+                </a>
+              `;
+            }).join('')}
           </div>
         `;
       }

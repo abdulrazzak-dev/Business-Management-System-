@@ -27,6 +27,7 @@ public class OmniSearchResponse {
         private String title;
         private String subtitle;
         private String details;
+        private String status;
         private String badge;
         private String url;
     }

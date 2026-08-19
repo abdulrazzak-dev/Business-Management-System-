@@ -29,7 +29,7 @@ async function renderCustomersTable() {
 
   try {
     const queryString = searchVal ? `?search=${encodeURIComponent(searchVal)}` : '';
-    const customers = await apiRequest(`/customers${queryString}`);
+    const customers = await apiRequest(`/api/customers${queryString}`);
     cachedCustomersList = customers || [];
 
     if (cachedCustomersList.length === 0) {
@@ -116,13 +116,13 @@ async function handleCustomerFormSubmit(e) {
 
   try {
     if (currentEditingCustomerId) {
-      await apiRequest(`/customers/${currentEditingCustomerId}`, {
+      await apiRequest(`/api/customers/${currentEditingCustomerId}`, {
         method: 'PUT',
         body: JSON.stringify(payload)
       });
       showToast(`Customer "${name}" profile updated`, 'success');
     } else {
-      await apiRequest('/customers', {
+      await apiRequest('/api/customers', {
         method: 'POST',
         body: JSON.stringify(payload)
       });
@@ -146,8 +146,8 @@ function confirmDeleteCustomer(customerId) {
     confirmText: 'Delete Record',
     onConfirm: async () => {
       try {
-        await apiRequest(`/customers/${customerId}`, { method: 'DELETE' });
-        showToast(`Customer "${c.name}" deleted`, 'danger');
+        await apiRequest(`/api/customers/${customerId}`, { method: 'DELETE' });
+        showToast(`Customer "${c.name}" deleted`, 'success');
         renderCustomersTable();
       } catch (err) {
         showToast(err.message || 'Error deleting customer', 'danger');

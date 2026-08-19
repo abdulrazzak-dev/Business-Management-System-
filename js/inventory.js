@@ -53,8 +53,8 @@ async function renderInventoryTable() {
 
   try {
     let endpoint = '/inventory';
-    if (filterVal === 'low') endpoint = '/inventory/low-stock';
-    else if (filterVal === 'out') endpoint = '/inventory/out-of-stock';
+    if (filterVal === 'low') endpoint = '/api/inventory/low-stock';
+    else if (filterVal === 'out') endpoint = '/api/inventory/out-of-stock';
 
     let products = await apiRequest(endpoint) || [];
 

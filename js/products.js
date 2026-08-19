@@ -43,7 +43,7 @@ async function renderProductTable() {
     if (statusVal) queryParams.append('status', statusVal);
 
     const queryString = queryParams.toString() ? `?${queryParams.toString()}` : '';
-    const products = await apiRequest(`/products${queryString}`);
+    const products = await apiRequest(`/api/products${queryString}`);
     cachedProductsList = products || [];
 
     populateCategoryFilterOptions(cachedProductsList);

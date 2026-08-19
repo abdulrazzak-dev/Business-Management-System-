@@ -129,7 +129,7 @@ async function renderTopProductsTable() {
   if (!tbody) return;
 
   try {
-    const topProducts = await apiRequest('/reports/top-products') || [];
+    const topProducts = await apiRequest('/api/reports/top-products') || [];
 
     tbody.innerHTML = topProducts.map((tp, idx) => `
       <tr>

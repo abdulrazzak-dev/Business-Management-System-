@@ -1,5 +1,6 @@
 package com.business.management.controller;
 
+import com.business.management.dto.CreateAdminRequest;
 import com.business.management.dto.LoginResponse;
 import com.business.management.dto.UserProfileUpdateRequest;
 import com.business.management.service.UserService;
@@ -25,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping("/create-admin")
-    public ResponseEntity<LoginResponse.UserDto> createAdmin(@Valid @RequestBody com.business.management.dto.CreateAdminRequest request) {
+    public ResponseEntity<LoginResponse.UserDto> createAdmin(@Valid @RequestBody CreateAdminRequest request) {
         return ResponseEntity.ok(userService.createAdminAccount(request));
     }
 }

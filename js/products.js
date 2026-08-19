@@ -12,6 +12,7 @@ let currentEditingProductId = null;
 let cachedProductsList = [];
 
 function initProductPage() {
+  enforceProductAdminUIControls();
   renderProductTable();
 
   const searchInput = document.getElementById('product-search');
@@ -28,6 +29,29 @@ function initProductPage() {
   }
 }
 
+function checkIsAdmin() {
+  const userJson = localStorage.getItem('user') || localStorage.getItem('currentUser');
+  if (!userJson) return false;
+  try {
+    const user = JSON.parse(userJson);
+    return user.role === 'ADMIN';
+  } catch (e) {
+    return false;
+  }
+}
+
+function enforceProductAdminUIControls() {
+  const isAdmin = checkIsAdmin();
+  const addBtns = document.querySelectorAll('button[onclick="openAddProductModal()"]');
+  addBtns.forEach(btn => {
+    if (!isAdmin) {
+      btn.style.display = 'none';
+    } else {
+      btn.style.display = '';
+    }
+  });
+}
+
 async function renderProductTable() {
   const tbody = document.getElementById('products-tbody');
   if (!tbody) return;
@@ -35,6 +59,7 @@ async function renderProductTable() {
   const searchVal = document.getElementById('product-search')?.value.trim();
   const categoryVal = document.getElementById('product-category-filter')?.value;
   const statusVal = document.getElementById('product-status-filter')?.value;
+  const isAdmin = checkIsAdmin();
 
   try {
     let queryParams = new URLSearchParams();
@@ -65,6 +90,17 @@ async function renderProductTable() {
       if (p.status === 'LOW_STOCK') badgeClass = 'badge-warning';
       else if (p.status === 'OUT_OF_STOCK') badgeClass = 'badge-danger';
 
+      const actionButtons = isAdmin ? `
+        <div style="display:flex; gap:0.35rem;">
+          <button class="btn btn-sm btn-outline" onclick="openEditProductModal('${p.id}')" title="Edit Product">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+          <button class="btn btn-sm btn-outline" style="color:var(--status-danger);" onclick="confirmDeleteProduct('${p.id}')" title="Delete Product">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      ` : `<span style="font-size:0.75rem; color:var(--text-muted);">View Only</span>`;
+
       return `
         <tr>
           <td><strong>${p.sku || p.id}</strong></td>
@@ -78,16 +114,7 @@ async function renderProductTable() {
             </div>
           </td>
           <td><span class="badge ${badgeClass}"><span class="badge-dot"></span>${(p.status || '').replace('_', ' ')}</span></td>
-          <td>
-            <div style="display:flex; gap:0.35rem;">
-              <button class="btn btn-sm btn-outline" onclick="openEditProductModal('${p.id}')" title="Edit Product">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
-              <button class="btn btn-sm btn-outline" style="color:var(--status-danger);" onclick="confirmDeleteProduct('${p.id}')" title="Delete Product">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </td>
+          <td>${actionButtons}</td>
         </tr>
       `;
     }).join('');
@@ -106,6 +133,11 @@ function populateCategoryFilterOptions(products) {
 }
 
 function openAddProductModal() {
+  if (!checkIsAdmin()) {
+    showToast('Access denied. Only Administrators can add new products.', 'danger');
+    return;
+  }
+
   currentEditingProductId = null;
   document.getElementById('product-modal-title').textContent = 'Add New Product';
   document.getElementById('product-form').reset();
@@ -116,6 +148,11 @@ function openAddProductModal() {
 }
 
 function openEditProductModal(productId) {
+  if (!checkIsAdmin()) {
+    showToast('Access denied. Only Administrators can edit products.', 'danger');
+    return;
+  }
+
   const p = cachedProductsList.find(item => item.id === productId);
   if (!p) return;
 
@@ -133,15 +170,7 @@ function openEditProductModal(productId) {
 }
 
 function enforceProductPricePermissions() {
-  const userJson = localStorage.getItem('user');
-  let isAdmin = false;
-  if (userJson) {
-    try {
-      const user = JSON.parse(userJson);
-      isAdmin = user.role === 'ADMIN';
-    } catch (e) {}
-  }
-
+  const isAdmin = checkIsAdmin();
   const priceInput = document.getElementById('product-price');
   if (priceInput) {
     if (!isAdmin) {
@@ -160,6 +189,11 @@ function enforceProductPricePermissions() {
 
 async function handleProductFormSubmit(e) {
   e.preventDefault();
+
+  if (!checkIsAdmin()) {
+    showToast('Access denied. Only Administrators can modify products.', 'danger');
+    return;
+  }
 
   const sku = document.getElementById('product-id').value;
   const name = document.getElementById('product-name').value.trim();
@@ -198,6 +232,11 @@ async function handleProductFormSubmit(e) {
 }
 
 function confirmDeleteProduct(productId) {
+  if (!checkIsAdmin()) {
+    showToast('Access denied. Only Administrators can delete products.', 'danger');
+    return;
+  }
+
   const p = cachedProductsList.find(item => item.id === productId);
   if (!p) return;
 

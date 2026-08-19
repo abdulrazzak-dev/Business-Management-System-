@@ -213,10 +213,23 @@ async function submitNewOrder(e) {
     return;
   }
 
+  const userJson = localStorage.getItem('user') || localStorage.getItem('currentUser');
+  let staffId = null;
+  let staffName = null;
+  if (userJson) {
+    try {
+      const u = JSON.parse(userJson);
+      staffId = u.id;
+      staffName = u.name;
+    } catch (err) {}
+  }
+
   const payload = {
     customerId: customerId,
     paymentMethod: paymentMethod,
     status: status,
+    staffId: staffId,
+    staffName: staffName,
     items: cartItems.map(i => ({ productId: i.productId, quantity: i.quantity }))
   };
 

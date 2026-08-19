@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface CustomerRepository extends MongoRepository<Customer, String> {
     List<Customer> findByNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrPhoneContaining(String name, String email, String phone);
+    long countByStaffId(String staffId);
     Boolean existsByEmail(String email);
 }

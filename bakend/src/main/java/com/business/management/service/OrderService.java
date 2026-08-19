@@ -95,6 +95,8 @@ public class OrderService {
                 .orderNumber("ORD-" + (5000 + (int)(Math.random() * 5000)))
                 .customerId(request.getCustomerId())
                 .customerName(customerName)
+                .staffId(request.getStaffId())
+                .staffName(request.getStaffName())
                 .items(orderItems)
                 .subtotal(subtotal)
                 .tax(tax)

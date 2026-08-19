@@ -24,6 +24,7 @@ public class Customer {
     private String email;
     private String phone;
     private String address;
+    private String staffId;
     private BigDecimal totalPurchases;
     private Integer ordersCount;
     private LocalDateTime createdAt;

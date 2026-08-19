@@ -23,6 +23,8 @@ public class Order {
     private String orderNumber;
     private String customerId;
     private String customerName;
+    private String staffId;
+    private String staffName;
     private List<OrderItem> items;
     private BigDecimal subtotal;
     private BigDecimal tax;

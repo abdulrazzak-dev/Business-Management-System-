@@ -121,23 +121,46 @@ function renderRecentTransactions(orders) {
   }).join('');
 }
 
+function checkIsAdmin() {
+  const userJson = localStorage.getItem('user') || localStorage.getItem('currentUser');
+  if (!userJson) return false;
+  try {
+    const user = JSON.parse(userJson);
+    return user.role === 'ADMIN';
+  } catch (e) {
+    return false;
+  }
+}
+
 function renderRecentOrders(orders) {
+  const recentOrdersCard = document.getElementById('recent-orders-card');
+  const isAdmin = checkIsAdmin();
+
+  if (!isAdmin) {
+    if (recentOrdersCard) recentOrdersCard.style.display = 'none';
+    return;
+  } else {
+    if (recentOrdersCard) recentOrdersCard.style.display = 'block';
+  }
+
   const tbody = document.getElementById('dashboard-recent-orders-tbody');
   if (!tbody) return;
 
-  if (orders.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="5" class="table-empty-state"><i class="fa-solid fa-box-open"></i><p>No recent orders found</p></td></tr>`;
+  if (!orders || orders.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" class="table-empty-state"><i class="fa-solid fa-box-open"></i><p>No recent orders found</p></td></tr>`;
     return;
   }
 
   tbody.innerHTML = orders.map(ord => {
     const badgeClass = ord.status === 'COMPLETED' ? 'badge-success' : ord.status === 'PROCESSING' ? 'badge-info' : 'badge-warning';
     const itemsCount = ord.items ? ord.items.reduce((sum, i) => sum + (i.quantity || 1), 0) : 1;
+    const staffDisplay = ord.staffName || (ord.staffId ? `Staff #${ord.staffId}` : 'Admin / System');
 
     return `
       <tr>
         <td><strong>${ord.orderNumber || ord.id}</strong></td>
         <td>${ord.customerName || 'Customer'}</td>
+        <td><span class="badge badge-info"><i class="fa-solid fa-user-tie" style="margin-right:0.25rem;"></i>${staffDisplay}</span></td>
         <td>${itemsCount} item(s)</td>
         <td><strong>${formatCurrency(ord.totalAmount)}</strong></td>
         <td><span class="badge ${badgeClass}"><span class="badge-dot"></span>${ord.status}</span></td>

@@ -14,6 +14,8 @@ public class OrderRequest {
 
     private String customerId;
     private String customerName;
+    private String staffId;
+    private String staffName;
 
     @NotEmpty(message = "Order must contain at least one item")
     @Valid

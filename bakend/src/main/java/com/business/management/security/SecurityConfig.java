@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/products", "/api/products/").hasRole("ADMIN")
                         .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
                         .requestMatchers(org.springframework.http.HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/settings/**").hasRole("ADMIN")
                         .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/settings/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )

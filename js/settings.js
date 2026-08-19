@@ -43,7 +43,7 @@ function loadUserProfile() {
 }
 
 function enforceSettingsPermissions() {
-  const userJson = localStorage.getItem('user');
+  const userJson = localStorage.getItem('user') || localStorage.getItem('currentUser');
   let isAdmin = false;
   if (userJson) {
     try {
@@ -52,28 +52,37 @@ function enforceSettingsPermissions() {
     } catch (e) {}
   }
 
+  const businessCard = document.getElementById('business-settings-card');
+  const nameEl = document.getElementById('settings-business-name');
+  const emailEl = document.getElementById('settings-business-email');
+  const phoneEl = document.getElementById('settings-business-phone');
+  const addressEl = document.getElementById('settings-business-address');
   const taxEl = document.getElementById('settings-tax-rate');
   const currencyEl = document.getElementById('settings-currency');
   const saveBtn = document.getElementById('save-business-settings-btn');
 
   if (!isAdmin) {
-    if (taxEl) {
-      taxEl.disabled = true;
-      taxEl.title = 'Only Administrators can change financial tax rates.';
-      taxEl.style.background = 'var(--bg-surface-subtle)';
-      taxEl.style.cursor = 'not-allowed';
+    if (businessCard) {
+      businessCard.style.display = 'none';
     }
-    if (currencyEl) {
-      currencyEl.disabled = true;
-      currencyEl.title = 'Only Administrators can change system currency.';
-      currencyEl.style.background = 'var(--bg-surface-subtle)';
-      currencyEl.style.cursor = 'not-allowed';
-    }
+
+    [nameEl, emailEl, phoneEl, addressEl, taxEl, currencyEl].forEach(el => {
+      if (el) {
+        el.disabled = true;
+        el.title = 'Only Administrators can view and edit store settings.';
+        el.style.background = 'var(--bg-surface-subtle)';
+        el.style.cursor = 'not-allowed';
+      }
+    });
+
     if (saveBtn) {
       saveBtn.disabled = true;
-      saveBtn.title = 'Only Administrators can save system settings.';
-      saveBtn.style.opacity = '0.6';
+      saveBtn.style.opacity = '0.5';
       saveBtn.style.cursor = 'not-allowed';
+    }
+  } else {
+    if (businessCard) {
+      businessCard.style.display = 'block';
     }
   }
 }
@@ -144,6 +153,20 @@ async function loadBusinessSettings() {
 
 async function handleSettingsFormSubmit(e) {
   e.preventDefault();
+
+  const userJson = localStorage.getItem('user') || localStorage.getItem('currentUser');
+  let isAdmin = false;
+  if (userJson) {
+    try {
+      const user = JSON.parse(userJson);
+      isAdmin = user.role === 'ADMIN';
+    } catch (err) {}
+  }
+
+  if (!isAdmin) {
+    showToast('Access denied. Only Administrators can update store settings.', 'danger');
+    return;
+  }
 
   const payload = {
     businessName: document.getElementById('settings-business-name').value.trim(),

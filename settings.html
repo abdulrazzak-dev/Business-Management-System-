@@ -106,60 +106,97 @@
         </div>
 
         <div class="grid-2col" style="display:grid; grid-template-columns: 2fr 1fr; gap:1.5rem;">
-          <!-- Business Details Form -->
-          <div class="glass-panel table-card" style="padding:1.75rem;">
-            <h3 class="table-title" style="margin-bottom:1.25rem;"><i class="fa-solid fa-building" style="color:var(--primary); margin-right:0.5rem;"></i> Business Profile & Store Info</h3>
-            
-            <form id="business-settings-form">
-              <div class="form-group">
-                <label for="settings-business-name">Business / Store Name *</label>
-                <input type="text" id="settings-business-name" class="form-control" required>
-              </div>
-
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                <div class="form-group">
-                  <label for="settings-business-email">Business Email *</label>
-                  <input type="email" id="settings-business-email" class="form-control" required>
-                </div>
-                <div class="form-group">
-                  <label for="settings-business-phone">Support Phone</label>
-                  <input type="text" id="settings-business-phone" class="form-control">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="settings-business-address">Physical Store Address</label>
-                <textarea id="settings-business-address" class="form-control" rows="2"></textarea>
-              </div>
-
-              <hr style="border:0; border-top:1px solid var(--border-color); margin:1.5rem 0;">
-
-              <h3 class="table-title" style="margin-bottom:1.25rem;"><i class="fa-solid fa-coins" style="color:var(--secondary); margin-right:0.5rem;"></i> Financial & Tax Defaults</h3>
-
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                <div class="form-group">
-                  <label for="settings-currency">System Currency</label>
-                  <select id="settings-currency" class="form-control">
-                    <option value="USD">USD ($)</option>
-                    <option value="EUR">EUR (€)</option>
-                    <option value="GBP">GBP (£)</option>
-                    <option value="CAD">CAD (CA$)</option>
-                    <option value="AUD">AUD (A$)</option>
-                  </select>
+          <div style="display:flex; flex-direction:column; gap:1.5rem;">
+            <!-- User Profile & Account Settings Form Card -->
+            <div class="glass-panel table-card" style="padding:1.75rem;">
+              <h3 class="table-title" style="margin-bottom:1.25rem;"><i class="fa-solid fa-id-card" style="color:var(--primary); margin-right:0.5rem;"></i> My Profile & Account Settings</h3>
+              
+              <form id="user-profile-form">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                  <div class="form-group">
+                    <label for="profile-full-name">Full Name *</label>
+                    <input type="text" id="profile-full-name" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="profile-email">Email Address *</label>
+                    <input type="email" id="profile-email" class="form-control" required>
+                  </div>
                 </div>
 
-                <div class="form-group">
-                  <label for="settings-tax-rate">Sales Tax Rate (%)</label>
-                  <input type="number" step="0.1" id="settings-tax-rate" class="form-control">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                  <div class="form-group">
+                    <label for="profile-role">System Role</label>
+                    <input type="text" id="profile-role" class="form-control" readonly style="background:var(--bg-surface-subtle); cursor:not-allowed;">
+                  </div>
+                  <div class="form-group">
+                    <label for="profile-password">New Password (Optional)</label>
+                    <input type="password" id="profile-password" class="form-control" placeholder="Leave blank to keep current">
+                  </div>
                 </div>
-              </div>
 
-              <div style="margin-top:1.5rem; text-align:right;">
-                <button type="submit" class="btn btn-primary">
-                  <i class="fa-solid fa-floppy-disk"></i> Save Settings
-                </button>
-              </div>
-            </form>
+                <div style="margin-top:1.25rem; text-align:right;">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-user-check"></i> Update Profile
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Business Details Form -->
+            <div class="glass-panel table-card" style="padding:1.75rem;">
+              <h3 class="table-title" style="margin-bottom:1.25rem;"><i class="fa-solid fa-building" style="color:var(--primary); margin-right:0.5rem;"></i> Business Profile & Store Info</h3>
+              
+              <form id="business-settings-form">
+                <div class="form-group">
+                  <label for="settings-business-name">Business / Store Name *</label>
+                  <input type="text" id="settings-business-name" class="form-control" required>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                  <div class="form-group">
+                    <label for="settings-business-email">Business Email *</label>
+                    <input type="email" id="settings-business-email" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="settings-business-phone">Support Phone</label>
+                    <input type="text" id="settings-business-phone" class="form-control">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="settings-business-address">Physical Store Address</label>
+                  <textarea id="settings-business-address" class="form-control" rows="2"></textarea>
+                </div>
+
+                <hr style="border:0; border-top:1px solid var(--border-color); margin:1.5rem 0;">
+
+                <h3 class="table-title" style="margin-bottom:1.25rem;"><i class="fa-solid fa-coins" style="color:var(--secondary); margin-right:0.5rem;"></i> Financial & Tax Defaults</h3>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                  <div class="form-group">
+                    <label for="settings-currency">System Currency</label>
+                    <select id="settings-currency" class="form-control">
+                      <option value="USD">USD ($)</option>
+                      <option value="EUR">EUR (€)</option>
+                      <option value="GBP">GBP (£)</option>
+                      <option value="CAD">CAD (CA$)</option>
+                      <option value="AUD">AUD (A$)</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="settings-tax-rate">Sales Tax Rate (%)</label>
+                    <input type="number" step="0.1" id="settings-tax-rate" class="form-control">
+                  </div>
+                </div>
+
+                <div style="margin-top:1.5rem; text-align:right;">
+                  <button type="submit" class="btn btn-primary" id="save-business-settings-btn">
+                    <i class="fa-solid fa-floppy-disk"></i> Save Settings
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
 
           <!-- Theme & Quick Actions Sidebar Panel -->

@@ -1,0 +1,54 @@
+package com.business.management.service;
+
+import com.business.management.dto.LoginResponse;
+import com.business.management.dto.UserProfileUpdateRequest;
+import com.business.management.exception.BadRequestException;
+import com.business.management.exception.ResourceNotFoundException;
+import com.business.management.model.User;
+import com.business.management.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public LoginResponse.UserDto updateUserProfile(Authentication authentication, UserProfileUpdateRequest request) {
+        String currentEmail = authentication.getName();
+        User currentUser = userRepository.findByEmail(currentEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("Logged-in user not found"));
+
+        if (!currentUser.getEmail().equalsIgnoreCase(request.getEmail())) {
+            if (userRepository.existsByEmail(request.getEmail())) {
+                throw new BadRequestException("Email address is already in use: " + request.getEmail());
+            }
+            currentUser.setEmail(request.getEmail());
+        }
+
+        currentUser.setName(request.getName());
+
+        if (request.getPassword() != null && !request.getPassword().trim().isEmpty()) {
+            if (request.getPassword().length() < 6) {
+                throw new BadRequestException("Password must be at least 6 characters long");
+            }
+            currentUser.setPassword(passwordEncoder.encode(request.getPassword().trim()));
+        }
+
+        currentUser.setUpdatedAt(LocalDateTime.now());
+        userRepository.save(currentUser);
+
+        return LoginResponse.UserDto.builder()
+                .id(currentUser.getId())
+                .name(currentUser.getName())
+                .email(currentUser.getEmail())
+                .role(currentUser.getRole().name())
+                .build();
+    }
+}

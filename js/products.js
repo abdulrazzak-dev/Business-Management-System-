@@ -109,7 +109,9 @@ function openAddProductModal() {
   currentEditingProductId = null;
   document.getElementById('product-modal-title').textContent = 'Add New Product';
   document.getElementById('product-form').reset();
-  document.getElementById('product-id').value = `PRD-${Math.floor(1000 + Math.random() * 9000)}`;
+  document.getElementById('product-id').value = `PROD-${Math.floor(100 + Math.random() * 900)}`;
+
+  enforceProductPricePermissions();
   openModal('product-modal');
 }
 
@@ -126,7 +128,34 @@ function openEditProductModal(productId) {
   document.getElementById('product-stock').value = p.stockQuantity;
   document.getElementById('product-min-stock').value = p.minimumStockLevel || 10;
   
+  enforceProductPricePermissions();
   openModal('product-modal');
+}
+
+function enforceProductPricePermissions() {
+  const userJson = localStorage.getItem('user');
+  let isAdmin = false;
+  if (userJson) {
+    try {
+      const user = JSON.parse(userJson);
+      isAdmin = user.role === 'ADMIN';
+    } catch (e) {}
+  }
+
+  const priceInput = document.getElementById('product-price');
+  if (priceInput) {
+    if (!isAdmin) {
+      priceInput.disabled = true;
+      priceInput.title = 'Only Administrators can edit product prices.';
+      priceInput.style.background = 'var(--bg-surface-subtle)';
+      priceInput.style.cursor = 'not-allowed';
+    } else {
+      priceInput.disabled = false;
+      priceInput.title = '';
+      priceInput.style.background = '';
+      priceInput.style.cursor = '';
+    }
+  }
 }
 
 async function handleProductFormSubmit(e) {

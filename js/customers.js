@@ -11,6 +11,17 @@ document.addEventListener('DOMContentLoaded', () => {
 let currentEditingCustomerId = null;
 let cachedCustomersList = [];
 
+function checkIsAdmin() {
+  const userJson = localStorage.getItem('user') || localStorage.getItem('currentUser');
+  if (!userJson) return false;
+  try {
+    const user = JSON.parse(userJson);
+    return user.role === 'ADMIN';
+  } catch (e) {
+    return false;
+  }
+}
+
 function initCustomersPage() {
   renderCustomersTable();
 
@@ -23,7 +34,14 @@ function initCustomersPage() {
 
 async function renderCustomersTable() {
   const tbody = document.getElementById('customers-tbody');
+  const actionsTh = document.getElementById('customer-actions-th');
   if (!tbody) return;
+
+  const isAdmin = checkIsAdmin();
+
+  if (actionsTh) {
+    actionsTh.style.display = isAdmin ? '' : 'none';
+  }
 
   const searchVal = document.getElementById('customer-search')?.value.trim();
 
@@ -35,7 +53,7 @@ async function renderCustomersTable() {
     if (cachedCustomersList.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="6" class="table-empty-state">
+          <td colspan="${isAdmin ? '6' : '5'}" class="table-empty-state">
             <i class="fa-solid fa-users"></i>
             <p>No customer profiles found.</p>
           </td>
@@ -45,6 +63,19 @@ async function renderCustomersTable() {
     }
 
     tbody.innerHTML = cachedCustomersList.map(c => {
+      const actionsTd = isAdmin ? `
+        <td>
+          <div style="display:flex; gap:0.35rem;">
+            <button class="btn btn-sm btn-outline" onclick="openEditCustomerModal('${c.id}')" title="Edit Customer">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button class="btn btn-sm btn-outline" style="color:var(--status-danger);" onclick="confirmDeleteCustomer('${c.id}')" title="Delete Customer">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      ` : '';
+
       return `
         <tr>
           <td><strong>${c.customerCode || c.id}</strong></td>
@@ -58,16 +89,7 @@ async function renderCustomersTable() {
           </td>
           <td><span class="badge badge-info">${c.ordersCount || 0} Orders</span></td>
           <td><strong>Rs. ${Number(c.totalPurchases || 0).toFixed(2)}</strong></td>
-          <td>
-            <div style="display:flex; gap:0.35rem;">
-              <button class="btn btn-sm btn-outline" onclick="openEditCustomerModal('${c.id}')" title="Edit Customer">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
-              <button class="btn btn-sm btn-outline" style="color:var(--status-danger);" onclick="confirmDeleteCustomer('${c.id}')" title="Delete Customer">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </td>
+          ${actionsTd}
         </tr>
       `;
     }).join('');
@@ -85,6 +107,11 @@ function openAddCustomerModal() {
 }
 
 function openEditCustomerModal(customerId) {
+  if (!checkIsAdmin()) {
+    showToast('Access denied. Only Administrators can edit customer details.', 'danger');
+    return;
+  }
+
   const c = cachedCustomersList.find(item => item.id === customerId);
   if (!c) return;
 
@@ -101,6 +128,11 @@ function openEditCustomerModal(customerId) {
 
 async function handleCustomerFormSubmit(e) {
   e.preventDefault();
+
+  if (currentEditingCustomerId && !checkIsAdmin()) {
+    showToast('Access denied. Only Administrators can update customer profiles.', 'danger');
+    return;
+  }
 
   const name = document.getElementById('customer-name').value.trim();
   const email = document.getElementById('customer-email').value.trim();
@@ -137,6 +169,11 @@ async function handleCustomerFormSubmit(e) {
 }
 
 function confirmDeleteCustomer(customerId) {
+  if (!checkIsAdmin()) {
+    showToast('Access denied. Only Administrators can delete customer records.', 'danger');
+    return;
+  }
+
   const c = cachedCustomersList.find(item => item.id === customerId);
   if (!c) return;
 

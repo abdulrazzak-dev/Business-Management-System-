@@ -88,20 +88,32 @@ async function renderRevenueTrendChart(period = 'weekly') {
   } catch (err) {}
 }
 
+let topProductsChartInstance = null; // -> கோப்பின் மேலே global ஆக இருக்க வேண்டும்
+
 async function renderTopSellingProductsChart() {
   const canvas = document.getElementById('topProductsDoughnutChart');
   if (!canvas) return;
 
   try {
     const topList = await apiRequest('/api/reports/top-products') || [];
+    console.log("Top Products Data:", topList); // -> Backend அனுப்பும் data-வை Console-ல் பார்க்க
+
+    if (!topList || topList.length === 0) {
+      console.warn("No top products data found.");
+      return;
+    }
+
     const ctx = canvas.getContext('2d');
-    if (topProductsChartInstance) topProductsChartInstance.destroy();
+    if (topProductsChartInstance) {
+      topProductsChartInstance.destroy();
+    }
 
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     const textColor = isDark ? '#94a3b8' : '#64748b';
 
-    const labels = topList.map(item => item.name);
-    const data = topList.map(item => item.sold);
+    // Backend அனுப்பும் key பெயர்களை மாற்று வழிகளுடன் (fallback) எடுப்பது:
+    const labels = topList.map(item => item.name || item.productName || 'Unknown');
+    const data = topList.map(item => item.sold || item.unitsSold || item.quantity || item.soldCount || 0);
 
     topProductsChartInstance = new Chart(ctx, {
       type: 'doughnut',
@@ -117,11 +129,19 @@ async function renderTopSellingProductsChart() {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { position: 'bottom', labels: { color: textColor, font: { family: 'Plus Jakarta Sans', weight: '600' } } }
+          legend: { 
+            position: 'bottom', 
+            labels: { 
+              color: textColor, 
+              font: { family: 'Plus Jakarta Sans', weight: '600' } 
+            } 
+          }
         }
       }
     });
-  } catch (err) {}
+  } catch (err) {
+    console.error("Top Selling Products Chart Error:", err); // -> பிழையை Console-ல் காட்டும்
+  }
 }
 
 async function renderTopProductsTable() {

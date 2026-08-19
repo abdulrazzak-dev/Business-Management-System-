@@ -169,10 +169,19 @@
                   <textarea id="settings-business-address" class="form-control" rows="2"></textarea>
                 </div>
 
-                <hr style="border:0; border-top:1px solid var(--border-color); margin:1.5rem 0;">
+                <div style="margin-top:1.5rem; text-align:right;">
+                  <button type="submit" class="btn btn-primary" id="save-business-settings-btn" style="padding: 0.625rem 1.25rem;">
+                    <i class="fa-solid fa-floppy-disk"></i> Save Store Info
+                  </button>
+                </div>
+              </form>
+            </div>
 
-                <h3 class="table-title" style="margin-bottom:1.25rem;"><i class="fa-solid fa-coins" style="color:var(--secondary); margin-right:0.5rem;"></i> Financial & Tax Defaults</h3>
+            <!-- Standalone Financial & Tax Defaults Card (Admin Only) -->
+            <div id="financial-settings-card" class="glass-panel table-card" style="padding:1.75rem;">
+              <h3 class="table-title" style="margin-bottom:1.25rem;"><i class="fa-solid fa-coins" style="color:var(--secondary); margin-right:0.5rem;"></i> Financial & Tax Defaults</h3>
 
+              <form id="financial-settings-form">
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
                   <div class="form-group">
                     <label for="settings-currency">System Currency</label>
@@ -192,8 +201,8 @@
                 </div>
 
                 <div style="margin-top:1.5rem; text-align:right;">
-                  <button type="submit" class="btn btn-primary" id="save-business-settings-btn" style="padding: 0.625rem 1.25rem;">
-                    <i class="fa-solid fa-floppy-disk"></i> Save Settings
+                  <button type="submit" class="btn btn-primary" id="save-financial-settings-btn" style="padding: 0.625rem 1.25rem;">
+                    <i class="fa-solid fa-floppy-disk"></i> Save Financial Settings
                   </button>
                 </div>
               </form>

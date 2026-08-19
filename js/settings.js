@@ -23,6 +23,11 @@ function initSettingsPage() {
     form.addEventListener('submit', handleSettingsFormSubmit);
   }
 
+  const financialForm = document.getElementById('financial-settings-form');
+  if (financialForm) {
+    financialForm.addEventListener('submit', handleFinancialFormSubmit);
+  }
+
   const createAdminForm = document.getElementById('create-admin-form');
   if (createAdminForm) {
     createAdminForm.addEventListener('submit', handleCreateAdminFormSubmit);
@@ -58,6 +63,7 @@ function enforceSettingsPermissions() {
   }
 
   const businessCard = document.getElementById('business-settings-card');
+  const financialCard = document.getElementById('financial-settings-card');
   const createAdminCard = document.getElementById('create-admin-card');
   const nameEl = document.getElementById('settings-business-name');
   const emailEl = document.getElementById('settings-business-email');
@@ -66,10 +72,14 @@ function enforceSettingsPermissions() {
   const taxEl = document.getElementById('settings-tax-rate');
   const currencyEl = document.getElementById('settings-currency');
   const saveBtn = document.getElementById('save-business-settings-btn');
+  const saveFinancialBtn = document.getElementById('save-financial-settings-btn');
 
   if (!isAdmin) {
     if (businessCard) {
       businessCard.style.display = 'none';
+    }
+    if (financialCard) {
+      financialCard.style.display = 'none';
     }
     if (createAdminCard) {
       createAdminCard.style.display = 'none';
@@ -89,9 +99,18 @@ function enforceSettingsPermissions() {
       saveBtn.style.opacity = '0.5';
       saveBtn.style.cursor = 'not-allowed';
     }
+
+    if (saveFinancialBtn) {
+      saveFinancialBtn.disabled = true;
+      saveFinancialBtn.style.opacity = '0.5';
+      saveFinancialBtn.style.cursor = 'not-allowed';
+    }
   } else {
     if (businessCard) {
       businessCard.style.display = 'block';
+    }
+    if (financialCard) {
+      financialCard.style.display = 'block';
     }
     if (createAdminCard) {
       createAdminCard.style.display = 'block';
@@ -199,6 +218,45 @@ async function handleSettingsFormSubmit(e) {
     showToast('Business settings updated!', 'success');
   } catch (err) {
     showToast(err.message || 'Error updating settings', 'danger');
+  }
+}
+
+async function handleFinancialFormSubmit(e) {
+  e.preventDefault();
+
+  const userJson = localStorage.getItem('user') || localStorage.getItem('currentUser');
+  let isAdmin = false;
+  if (userJson) {
+    try {
+      const user = JSON.parse(userJson);
+      isAdmin = user.role === 'ADMIN';
+    } catch (err) {}
+  }
+
+  if (!isAdmin) {
+    showToast('Access denied. Only Administrators can update financial settings.', 'danger');
+    return;
+  }
+
+  const payload = {
+    businessName: document.getElementById('settings-business-name')?.value.trim() || '',
+    businessEmail: document.getElementById('settings-business-email')?.value.trim() || '',
+    phone: document.getElementById('settings-business-phone')?.value.trim() || '',
+    address: document.getElementById('settings-business-address')?.value.trim() || '',
+    currency: document.getElementById('settings-currency').value,
+    taxRate: parseFloat(document.getElementById('settings-tax-rate').value) || 0,
+    theme: document.documentElement.getAttribute('data-theme') || 'light',
+    notificationsEnabled: true
+  };
+
+  try {
+    await apiRequest('/api/settings', {
+      method: 'PUT',
+      body: JSON.stringify(payload)
+    });
+    showToast('Financial & tax defaults saved!', 'success');
+  } catch (err) {
+    showToast(err.message || 'Error updating financial settings', 'danger');
   }
 }
 

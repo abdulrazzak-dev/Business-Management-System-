@@ -25,7 +25,7 @@ function initReportsPage() {
       e.target.classList.remove('btn-outline');
       e.target.classList.add('btn-primary');
 
-      const period = e.target.getAttribute('data-period');
+      const period = e.target.getAttribute('data-period') || 'weekly';
       renderRevenueTrendChart(period);
     });
   });
@@ -43,7 +43,9 @@ async function renderReportSummaryCards() {
     if (dailyEl) dailyEl.textContent = `$${Number(summary.dailyRevenue || 0).toFixed(2)}`;
     if (totalEl) totalEl.textContent = `$${Number(summary.totalRevenue || 0).toFixed(2)}`;
     if (avgEl) avgEl.textContent = `$${Number(summary.averageOrderValue || 0).toFixed(2)}`;
-  } catch (err) {}
+  } catch (err) {
+    console.error("Error loading report summary cards:", err);
+  }
 }
 
 async function renderRevenueTrendChart(period = 'weekly') {
@@ -53,7 +55,10 @@ async function renderRevenueTrendChart(period = 'weekly') {
   try {
     const reportData = await apiRequest(`/api/reports/${period}`);
     const ctx = canvas.getContext('2d');
-    if (revenueChartInstance) revenueChartInstance.destroy();
+    
+    if (revenueChartInstance) {
+      revenueChartInstance.destroy();
+    }
 
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     const textColor = isDark ? '#94a3b8' : '#64748b';
@@ -77,7 +82,12 @@ async function renderRevenueTrendChart(period = 'weekly') {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { labels: { color: textColor, font: { family: 'Plus Jakarta Sans', weight: '600' } } }
+          legend: { 
+            labels: { 
+              color: textColor, 
+              font: { family: 'Plus Jakarta Sans', weight: '600' } 
+            } 
+          }
         },
         scales: {
           x: { grid: { display: false }, ticks: { color: textColor } },
@@ -85,10 +95,10 @@ async function renderRevenueTrendChart(period = 'weekly') {
         }
       }
     });
-  } catch (err) {}
+  } catch (err) {
+    console.error("Error rendering revenue trend chart:", err);
+  }
 }
-
-let topProductsChartInstance = null; // -> கோப்பின் மேலே global ஆக இருக்க வேண்டும்
 
 async function renderTopSellingProductsChart() {
   const canvas = document.getElementById('topProductsDoughnutChart');
@@ -96,10 +106,10 @@ async function renderTopSellingProductsChart() {
 
   try {
     const topList = await apiRequest('/api/reports/top-products') || [];
-    console.log("Top Products Data:", topList); // -> Backend அனுப்பும் data-வை Console-ல் பார்க்க
+    console.log("Top Products Chart Data:", topList);
 
     if (!topList || topList.length === 0) {
-      console.warn("No top products data found.");
+      console.warn("No top products data found for chart.");
       return;
     }
 
@@ -111,9 +121,8 @@ async function renderTopSellingProductsChart() {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     const textColor = isDark ? '#94a3b8' : '#64748b';
 
-    // Backend அனுப்பும் key பெயர்களை மாற்று வழிகளுடன் (fallback) எடுப்பது:
     const labels = topList.map(item => item.name || item.productName || 'Unknown');
-    const data = topList.map(item => item.sold || item.unitsSold || item.quantity || item.soldCount || 0);
+    const data = topList.map(item => item.sold ?? item.unitsSold ?? item.quantity ?? 0);
 
     topProductsChartInstance = new Chart(ctx, {
       type: 'doughnut',
@@ -140,7 +149,7 @@ async function renderTopSellingProductsChart() {
       }
     });
   } catch (err) {
-    console.error("Top Selling Products Chart Error:", err); // -> பிழையை Console-ல் காட்டும்
+    console.error("Top Selling Products Chart Error:", err);
   }
 }
 
@@ -151,14 +160,34 @@ async function renderTopProductsTable() {
   try {
     const topProducts = await apiRequest('/api/reports/top-products') || [];
 
-    tbody.innerHTML = topProducts.map((tp, idx) => `
-      <tr>
-        <td><strong>#${idx + 1}</strong></td>
-        <td><strong>${tp.name}</strong></td>
-        <td><span class="badge badge-info">${tp.category}</span></td>
-        <td>${tp.sold} units</td>
-        <td><strong>$${Number(tp.revenue).toFixed(2)}</strong></td>
-      </tr>
-    `).join('');
-  } catch (err) {}
+    if (topProducts.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">
+            No top selling products available.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = topProducts.map((tp, idx) => {
+      const name = tp.name || tp.productName || 'N/A';
+      const category = tp.category || 'General';
+      const sold = tp.sold ?? tp.unitsSold ?? 0;
+      const revenue = Number(tp.revenue ?? tp.totalRevenue ?? 0).toFixed(2);
+
+      return `
+        <tr>
+          <td><strong>#${idx + 1}</strong></td>
+          <td><strong>${name}</strong></td>
+          <td><span class="badge badge-info">${category}</span></td>
+          <td>${sold} units</td>
+          <td><strong>$${revenue}</strong></td>
+        </tr>
+      `;
+    }).join('');
+  } catch (err) {
+    console.error("Top Products Table Error:", err);
+  }
 }

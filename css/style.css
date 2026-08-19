@@ -457,3 +457,12 @@ select.form-control {
   box-shadow: var(--shadow-sm);
   transition: var(--transition-normal);
 }
+
+/* Authentication Page Logo */
+.login-logo {
+  width: 60px;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 0.75rem;
+  display: inline-block;
+}

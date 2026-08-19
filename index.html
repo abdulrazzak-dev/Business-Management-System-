@@ -47,17 +47,11 @@
     }
 
     .login-logo {
-      width: 56px;
-      height: 56px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: #ffffff;
-      border-radius: var(--radius-md);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.75rem;
+      width: 60px;
+      height: auto;
+      object-fit: contain;
       margin-bottom: 0.75rem;
-      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+      display: inline-block;
     }
 
     .login-title {
@@ -100,7 +94,7 @@
   <div class="login-wrapper">
     <div class="login-card">
       <div class="login-brand">
-        <div class="login-logo"><i class="fa-solid fa-chart-line"></i></div>
+        <img src="logo.png" alt="Golden Logo" class="login-logo">
         <h1 class="login-title">Golden BMS</h1>
         <p class="login-subtitle">Small Business Management System</p>
       </div>

@@ -5,10 +5,57 @@
 document.addEventListener('DOMContentLoaded', () => {
   if (window.location.pathname.endsWith('dashboard.html') || window.location.pathname.endsWith('dashboard')) {
     loadDashboardData();
+
+    const customerForm = document.getElementById('customer-form');
+    if (customerForm) {
+      customerForm.addEventListener('submit', handleDashboardCustomerFormSubmit);
+    }
   }
 });
 
 let salesChartInstance = null;
+
+function openAddCustomerModal() {
+  const form = document.getElementById('customer-form');
+  if (form) form.reset();
+
+  const modalTitle = document.getElementById('customer-modal-title');
+  if (modalTitle) modalTitle.textContent = 'Add New Customer';
+
+  const custIdInput = document.getElementById('customer-id');
+  if (custIdInput) custIdInput.value = `CUST-${Math.floor(200 + Math.random() * 800)}`;
+
+  openModal('customer-modal');
+}
+
+async function handleDashboardCustomerFormSubmit(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('customer-name').value.trim();
+  const email = document.getElementById('customer-email').value.trim();
+  const phone = document.getElementById('customer-phone').value.trim();
+  const address = document.getElementById('customer-address').value.trim();
+
+  if (!name || !email || !phone) {
+    showToast('Please fill in Name, Email, and Phone', 'warning');
+    return;
+  }
+
+  const payload = { name, email, phone, address };
+
+  try {
+    await apiRequest('/api/customers', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+
+    showToast(`New customer "${name}" added successfully!`, 'success');
+    closeModal('customer-modal');
+    loadDashboardData();
+  } catch (err) {
+    showToast(err.message || 'Error creating customer', 'danger');
+  }
+}
 
 async function loadDashboardData() {
   try {

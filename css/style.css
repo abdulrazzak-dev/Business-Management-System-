@@ -690,7 +690,7 @@ body.login-page,
   background-repeat: no-repeat !important;
   background-attachment: fixed !important;
   position: relative;
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 .login-wrapper::before,

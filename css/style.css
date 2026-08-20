@@ -736,7 +736,7 @@ body.login-page::before,
   font-family: 'Poppins', sans-serif !important;
   font-weight: 800 !important;
   font-size: 2.2rem !important;
-  background: linear-gradient(135deg, #f84c7f 0%, #FFA751 50%, #ddd9c5 100%) !important;
+  background: linear-gradient(135deg, #f84c7f 0%, #e95ea4 50%, #ddd9c5 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;

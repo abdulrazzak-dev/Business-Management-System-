@@ -475,8 +475,8 @@ select.form-control {
 /* Modern Glass Container Utilities */
 .glass-panel {
   background: var(--bg-surface);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
@@ -712,8 +712,8 @@ body.login-page::before,
   box-sizing: border-box !important;
   border-radius: 40px 5px 40px 5px !important;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.137), rgba(255, 255, 255, 0.1)) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35) !important;
   z-index: 2 !important;

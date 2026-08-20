@@ -8,7 +8,6 @@ import com.business.management.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,14 +15,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(
+        origins = "*",
+        allowedHeaders = "*",
+        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS}
+)
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<LoginResponse.UserDto>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
@@ -37,7 +39,6 @@ public class UserController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<LoginResponse.UserDto> createUser(
             Authentication authentication,
             @Valid @RequestBody CreateUserRequest request
@@ -46,13 +47,11 @@ public class UserController {
     }
 
     @PostMapping("/create-admin")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<LoginResponse.UserDto> createAdmin(@Valid @RequestBody CreateAdminRequest request) {
         return ResponseEntity.ok(userService.createAdminAccount(request));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteUser(
             @PathVariable String id,
             Authentication authentication

@@ -26,14 +26,8 @@ function initInventoryPage() {
 }
 
 function isUserAdmin() {
-  const userJson = localStorage.getItem('user') || localStorage.getItem('currentUser');
-  if (!userJson) return false;
-  try {
-    const user = JSON.parse(userJson);
-    return user && user.role === 'ADMIN';
-  } catch (e) {
-    return false;
-  }
+  const user = JSON.parse(localStorage.getItem('currentUser') || localStorage.getItem('user') || '{}');
+  return (user.role || '').toUpperCase() === 'ADMIN';
 }
 
 async function renderInventoryOverviewCards() {
@@ -63,6 +57,11 @@ async function renderInventoryTable() {
   const filterVal = document.getElementById('inventory-filter')?.value || 'all';
   const isAdmin = isUserAdmin();
 
+  const thReplenish = document.getElementById('th-stock-replenishment');
+  if (thReplenish) {
+    thReplenish.style.display = isAdmin ? '' : 'none';
+  }
+
   try {
     let endpoint = '/api/inventory';
     if (filterVal === 'low') endpoint = '/api/inventory/low-stock';
@@ -75,9 +74,10 @@ async function renderInventoryTable() {
     }
 
     if (products.length === 0) {
+      const colSpan = isAdmin ? 5 : 4;
       tbody.innerHTML = `
         <tr>
-          <td colspan="5" class="table-empty-state">
+          <td colspan="${colSpan}" class="table-empty-state">
             <i class="fa-solid fa-boxes-packing"></i>
             <p>No inventory items match your current filter.</p>
           </td>
@@ -117,25 +117,18 @@ async function renderInventoryTable() {
             </div>
           </td>
           <td><span class="badge ${badgeClass}"><span class="badge-dot"></span>${(p.status || '').replace('_', ' ')}</span></td>
-          <td>
-            <div style="display:flex; gap:0.25rem;">
-              ${isAdmin ? `
+          ${isAdmin ? `
+            <td>
+              <div style="display:flex; gap:0.25rem;">
                 <button class="btn btn-sm btn-outline" onclick="quickRestock('${p.id}', 10)" title="Quick +10 Restock">
                   <i class="fa-solid fa-plus"></i> +10
                 </button>
                 <button class="btn btn-sm btn-outline" onclick="openStockAdjustModal('${p.id}')" title="Adjust Quantity">
                   <i class="fa-solid fa-sliders"></i> Adjust
                 </button>
-              ` : `
-                <button class="btn btn-sm btn-outline" disabled title="Admin Only: Stock Replenishment" style="opacity:0.4; cursor:not-allowed;">
-                  <i class="fa-solid fa-plus"></i> +10
-                </button>
-                <button class="btn btn-sm btn-outline" disabled title="Admin Only: Stock Replenishment" style="opacity:0.4; cursor:not-allowed;">
-                  <i class="fa-solid fa-sliders"></i> Adjust
-                </button>
-              `}
-            </div>
-          </td>
+              </div>
+            </td>
+          ` : ''}
         </tr>
       `;
     }).join('');

@@ -704,13 +704,14 @@ body.login-page::before,
   z-index: 1;
 }
 
-.login-card {
-  background: rgba(255, 255, 255, 0.08) !important;
-  backdrop-filter: blur(18px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(180%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+.login-card,
+.auth-box {
+  background: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
   border-radius: 20px !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35) !important;
   z-index: 2 !important;
   position: relative !important;
   color: #ffffff !important;

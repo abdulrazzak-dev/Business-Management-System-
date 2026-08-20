@@ -32,6 +32,21 @@ function initSettingsPage() {
   if (createAdminForm) {
     createAdminForm.addEventListener('submit', handleCreateAdminFormSubmit);
   }
+
+  const usersTableBody = document.getElementById('users-table-body');
+  if (usersTableBody) {
+    usersTableBody.addEventListener('click', async (e) => {
+      const deleteBtn = e.target.closest('.btn-delete-user');
+      if (!deleteBtn) return;
+
+      const userId = deleteBtn.getAttribute('data-user-id');
+      const userName = deleteBtn.getAttribute('data-user-name') || 'User';
+
+      if (confirm(`Are you sure you want to delete user account "${userName}"? This action cannot be undone.`)) {
+        await deleteUserProfile(userId, userName);
+      }
+    });
+  }
 }
 
 function loadUserProfile() {
@@ -145,7 +160,7 @@ async function loadManagedUsers() {
                 <i class="fa-solid fa-trash"></i>
               </button>
             ` : `
-              <button class="btn btn-sm btn-outline" style="color:var(--status-danger); border-color:rgba(239, 68, 68, 0.3);" onclick="deleteUserProfile(${user.id}, '${escapeHtml(user.name || 'User')}')" title="Delete User">
+              <button class="btn btn-sm btn-outline btn-delete-user" style="color:var(--status-danger); border-color:rgba(239, 68, 68, 0.3);" data-user-id="${escapeHtml(String(user.id))}" data-user-name="${escapeHtml(user.name || 'User')}" title="Delete User">
                 <i class="fa-solid fa-trash"></i>
               </button>
             `}
@@ -160,10 +175,6 @@ async function loadManagedUsers() {
 }
 
 async function deleteUserProfile(userId, userName) {
-  if (!confirm(`Are you sure you want to delete the user account for "${userName}"? This action cannot be undone.`)) {
-    return;
-  }
-
   try {
     await apiRequest(`/api/users/${userId}`, { method: 'DELETE' });
     showToast(`User account "${userName}" deleted successfully!`, 'success');

@@ -20,18 +20,20 @@
   <link rel="stylesheet" href="css/style.css">
   
   <style>
-    .login-wrapper {
+    .login-wrapper, body.login-page, .auth-container {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.75), rgba(30, 41, 59, 0.65));
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       padding: 1.5rem;
       position: relative;
     }
 
     .login-card {
-      background: var(--bg-surface);
+      background: #ffffff;
       width: 90%;
       max-width: 420px;
       padding: 2.5rem;

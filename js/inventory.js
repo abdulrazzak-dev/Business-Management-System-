@@ -25,6 +25,17 @@ function initInventoryPage() {
   if (stockForm) stockForm.addEventListener('submit', handleStockAdjustmentSubmit);
 }
 
+function isUserAdmin() {
+  const userJson = localStorage.getItem('user') || localStorage.getItem('currentUser');
+  if (!userJson) return false;
+  try {
+    const user = JSON.parse(userJson);
+    return user && user.role === 'ADMIN';
+  } catch (e) {
+    return false;
+  }
+}
+
 async function renderInventoryOverviewCards() {
   try {
     const products = await apiRequest('/api/inventory') || [];
@@ -50,6 +61,7 @@ async function renderInventoryTable() {
 
   const searchVal = (document.getElementById('inventory-search')?.value || '').toLowerCase().trim();
   const filterVal = document.getElementById('inventory-filter')?.value || 'all';
+  const isAdmin = isUserAdmin();
 
   try {
     let endpoint = '/api/inventory';
@@ -107,12 +119,21 @@ async function renderInventoryTable() {
           <td><span class="badge ${badgeClass}"><span class="badge-dot"></span>${(p.status || '').replace('_', ' ')}</span></td>
           <td>
             <div style="display:flex; gap:0.25rem;">
-              <button class="btn btn-sm btn-outline" onclick="quickRestock('${p.id}', 10)" title="Quick +10 Restock">
-                <i class="fa-solid fa-plus"></i> +10
-              </button>
-              <button class="btn btn-sm btn-outline" onclick="openStockAdjustModal('${p.id}')" title="Adjust Quantity">
-                <i class="fa-solid fa-sliders"></i> Adjust
-              </button>
+              ${isAdmin ? `
+                <button class="btn btn-sm btn-outline" onclick="quickRestock('${p.id}', 10)" title="Quick +10 Restock">
+                  <i class="fa-solid fa-plus"></i> +10
+                </button>
+                <button class="btn btn-sm btn-outline" onclick="openStockAdjustModal('${p.id}')" title="Adjust Quantity">
+                  <i class="fa-solid fa-sliders"></i> Adjust
+                </button>
+              ` : `
+                <button class="btn btn-sm btn-outline" disabled title="Admin Only: Stock Replenishment" style="opacity:0.4; cursor:not-allowed;">
+                  <i class="fa-solid fa-plus"></i> +10
+                </button>
+                <button class="btn btn-sm btn-outline" disabled title="Admin Only: Stock Replenishment" style="opacity:0.4; cursor:not-allowed;">
+                  <i class="fa-solid fa-sliders"></i> Adjust
+                </button>
+              `}
             </div>
           </td>
         </tr>
@@ -124,6 +145,11 @@ async function renderInventoryTable() {
 }
 
 async function quickRestock(productId, amount) {
+  if (!isUserAdmin()) {
+    showToast('Access denied: Stock replenishment is restricted to Administrators only', 'danger');
+    return;
+  }
+
   try {
     await apiRequest(`/api/inventory/${productId}`, {
       method: 'PATCH',
@@ -138,6 +164,11 @@ async function quickRestock(productId, amount) {
 }
 
 function openStockAdjustModal(productId) {
+  if (!isUserAdmin()) {
+    showToast('Access denied: Stock adjustments are restricted to Administrators only', 'danger');
+    return;
+  }
+
   const p = cachedInventoryList.find(item => item.id === productId);
   if (!p) return;
 
@@ -152,6 +183,11 @@ function openStockAdjustModal(productId) {
 
 async function handleStockAdjustmentSubmit(e) {
   e.preventDefault();
+
+  if (!isUserAdmin()) {
+    showToast('Access denied: Stock adjustments are restricted to Administrators only', 'danger');
+    return;
+  }
 
   const actionType = document.getElementById('adjust-action-type').value;
   const stockChange = parseInt(document.getElementById('adjust-qty-change').value, 10);

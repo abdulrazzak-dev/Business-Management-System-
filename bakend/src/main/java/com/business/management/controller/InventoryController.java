@@ -33,6 +33,7 @@ public class InventoryController {
     }
 
     @PatchMapping("/{productId}")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> updateStock(@PathVariable String productId, @RequestBody Map<String, Object> body) {
         Integer stockChange = Integer.parseInt(body.getOrDefault("stockChange", "0").toString());
         String actionType = body.getOrDefault("actionType", "add").toString();

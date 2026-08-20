@@ -86,7 +86,7 @@
       color: var(--text-main);
     }
 
-    .role-selector-container, .role-options, .demo-login-grid {
+    .role-cards-container, .role-selector-container, .role-options, .demo-login-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
@@ -95,76 +95,74 @@
       margin-bottom: 1.5rem;
     }
 
-    .demo-card {
+    .role-card, .demo-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 12px 14px;
+      gap: 6px;
+      min-width: 0;
       box-sizing: border-box;
       width: 100%;
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 10px 12px;
       background: var(--bg-surface-subtle, rgba(255, 255, 255, 0.03));
       cursor: pointer;
       transition: all 0.2s ease;
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
       user-select: none;
     }
 
-    .demo-card:hover {
+    .role-card:hover, .demo-card:hover {
       border-color: var(--primary);
       background: rgba(59, 130, 246, 0.05);
     }
 
-    .demo-card.active {
+    .role-card.active, .demo-card.active {
       border-color: var(--primary);
       background: rgba(59, 130, 246, 0.1);
       box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
     }
 
-    .demo-card-header {
+    .role-title, .demo-card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin: 0;
+      white-space: nowrap;
+      color: var(--text-main);
+    }
+
+    .role-badge-wrapper {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-      margin-bottom: 0.25rem;
     }
 
-    .demo-badge {
+    .role-badge, .demo-badge {
       display: inline-flex;
       align-items: center;
-      gap: 0.25rem;
-      font-size: 0.7rem;
+      gap: 4px;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 12px;
       font-weight: 700;
-      padding: 2px 6px;
-      border-radius: var(--radius-full);
       text-transform: uppercase;
       white-space: nowrap;
-      flex-shrink: 0;
     }
 
-    .demo-badge-admin {
+    .badge-admin, .demo-badge-admin {
       background: rgba(99, 102, 241, 0.15);
       color: #818cf8;
     }
 
-    .demo-badge-staff {
+    .badge-staff, .demo-badge-staff {
       background: rgba(16, 185, 129, 0.15);
       color: #34d399;
     }
 
-    .demo-card-title {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--text-main);
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .demo-card-desc {
+    .role-desc, .demo-card-desc {
       font-size: 0.75rem;
-      color: var(--text-muted);
-      line-height: 1.3;
-      margin-top: 4px;
+      line-height: 1.35;
+      color: #64748b;
+      margin: 0;
       word-break: normal;
       overflow-wrap: break-word;
     }
@@ -198,21 +196,21 @@
       </div>
 
       <!-- Demo Login Quick Select Cards -->
-      <div class="demo-login-grid">
-        <div class="demo-card" id="demo-admin-card" data-email="admin@Golden.com" data-password="admin123">
-          <div class="demo-card-header">
-            <span class="demo-card-title">Administrator</span>
-            <span class="demo-badge demo-badge-admin"><i class="fa-solid fa-user-shield"></i> Admin</span>
+      <div class="role-cards-container demo-login-grid">
+        <div class="role-card demo-card active" id="demo-admin-card" data-role="ADMIN" data-email="admin@Golden.com" data-password="admin123">
+          <h4 class="role-title demo-card-title">Administrator</h4>
+          <div class="role-badge-wrapper">
+            <span class="role-badge badge-admin demo-badge demo-badge-admin"><i class="fa-solid fa-user-shield"></i> ADMIN</span>
           </div>
-          <div class="demo-card-desc">Full system access & settings</div>
+          <p class="role-desc demo-card-desc">Full system access & settings</p>
         </div>
 
-        <div class="demo-card" id="demo-staff-card" data-email="staff@Golden.com" data-password="staff123">
-          <div class="demo-card-header">
-            <span class="demo-card-title">Staff Member</span>
-            <span class="demo-badge demo-badge-staff"><i class="fa-solid fa-user-tag"></i> Staff</span>
+        <div class="role-card demo-card" id="demo-staff-card" data-role="STAFF" data-email="staff@Golden.com" data-password="staff123">
+          <h4 class="role-title demo-card-title">Staff Member</h4>
+          <div class="role-badge-wrapper">
+            <span class="role-badge badge-staff demo-badge demo-badge-staff"><i class="fa-solid fa-user-gear"></i> STAFF</span>
           </div>
-          <div class="demo-card-desc">Limited access for operations</div>
+          <p class="role-desc demo-card-desc">Limited access for operations</p>
         </div>
       </div>
 

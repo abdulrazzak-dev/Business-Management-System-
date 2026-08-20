@@ -121,7 +121,7 @@ public class UserService {
                 .build();
     }
 
-    public void deleteUser(Long id, Authentication authentication) {
+    public void deleteUser(String id, Authentication authentication) {
         enforceAdminRole(authentication);
 
         User currentUser = userRepository.findByEmail(authentication.getName())

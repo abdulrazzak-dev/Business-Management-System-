@@ -706,6 +706,10 @@ body.login-page::before,
 
 .login-card,
 .auth-box {
+  margin: 20px auto !important;
+  width: 100% !important;
+  max-width: 440px !important;
+  box-sizing: border-box !important;
   border-radius: 40px 5px 40px 5px !important;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.1)) !important;
   backdrop-filter: blur(12px) !important;
@@ -717,6 +721,16 @@ body.login-page::before,
   color: #ffffff !important;
 }
 
+@media (max-width: 768px) {
+  .login-card,
+  .auth-box {
+    width: 92% !important;
+    max-width: 92vw !important;
+    padding: 24px 18px !important;
+    margin: 15px auto !important;
+  }
+}
+
 .login-card .login-title,
 .login-wrapper .login-title {
   color: #26164f !important;
@@ -725,10 +739,14 @@ body.login-page::before,
 }
 
 .login-card .form-control,
-.login-wrapper .form-control {
+.login-wrapper .form-control,
+.login-card input.form-control,
+.login-card input[type="email"],
+.login-card input[type="text"],
+.login-card input[type="password"] {
   background: rgba(255, 255, 255, 0.25) !important;
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
-  text-transform: uppercase !important;
+  text-transform: none !important;
   color: #ffffff !important;
   border-radius: 8px !important;
   padding: 0.75rem 2.5rem 0.75rem 2.6rem !important;

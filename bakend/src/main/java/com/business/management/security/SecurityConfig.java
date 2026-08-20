@@ -18,8 +18,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -39,7 +42,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/customers/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/customers/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/users", "/api/users/").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/users/create-admin").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/settings/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/settings/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

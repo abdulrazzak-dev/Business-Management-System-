@@ -65,6 +65,7 @@ function enforceSettingsPermissions() {
   const businessCard = document.getElementById('business-settings-card');
   const financialCard = document.getElementById('financial-settings-card');
   const createAdminCard = document.getElementById('create-admin-card');
+  const managedUsersCard = document.getElementById('managed-users-card');
   const nameEl = document.getElementById('settings-business-name');
   const emailEl = document.getElementById('settings-business-email');
   const phoneEl = document.getElementById('settings-business-phone');
@@ -75,15 +76,10 @@ function enforceSettingsPermissions() {
   const saveFinancialBtn = document.getElementById('save-financial-settings-btn');
 
   if (!isAdmin) {
-    if (businessCard) {
-      businessCard.style.display = 'none';
-    }
-    if (financialCard) {
-      financialCard.style.display = 'none';
-    }
-    if (createAdminCard) {
-      createAdminCard.style.display = 'none';
-    }
+    if (businessCard) businessCard.style.display = 'none';
+    if (financialCard) financialCard.style.display = 'none';
+    if (createAdminCard) createAdminCard.style.display = 'none';
+    if (managedUsersCard) managedUsersCard.style.display = 'none';
 
     [nameEl, emailEl, phoneEl, addressEl, taxEl, currencyEl].forEach(el => {
       if (el) {
@@ -106,16 +102,80 @@ function enforceSettingsPermissions() {
       saveFinancialBtn.style.cursor = 'not-allowed';
     }
   } else {
-    if (businessCard) {
-      businessCard.style.display = 'block';
-    }
-    if (financialCard) {
-      financialCard.style.display = 'block';
-    }
-    if (createAdminCard) {
-      createAdminCard.style.display = 'block';
-    }
+    if (businessCard) businessCard.style.display = 'block';
+    if (financialCard) financialCard.style.display = 'block';
+    if (createAdminCard) createAdminCard.style.display = 'block';
+    if (managedUsersCard) managedUsersCard.style.display = 'block';
+    loadManagedUsers();
   }
+}
+
+async function loadManagedUsers() {
+  const tbody = document.getElementById('users-table-body');
+  if (!tbody) return;
+
+  const currentUserJson = localStorage.getItem('user') || localStorage.getItem('currentUser');
+  let currentUserId = null;
+  if (currentUserJson) {
+    try {
+      currentUserId = JSON.parse(currentUserJson).id;
+    } catch (e) {}
+  }
+
+  try {
+    const users = await apiRequest('/api/users');
+    if (!users || !users.length) {
+      tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:1.5rem;">No user profiles found.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = users.map(user => {
+      const isSelf = currentUserId && (user.id === currentUserId);
+      const roleClass = user.role === 'ADMIN' ? 'badge-primary' : 'badge-info';
+      const roleLabel = user.role === 'ADMIN' ? 'ADMIN' : 'STAFF';
+
+      return `
+        <tr>
+          <td><strong>${escapeHtml(user.name)}</strong>${isSelf ? ' <span style="font-size:0.75rem; color:var(--primary);">(You)</span>' : ''}</td>
+          <td>${escapeHtml(user.email)}</td>
+          <td><span class="badge ${roleClass}">${roleLabel}</span></td>
+          <td style="text-align:right;">
+            ${isSelf ? `
+              <button class="btn btn-sm btn-outline" disabled title="You cannot delete your active admin profile" style="opacity:0.4; cursor:not-allowed;">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            ` : `
+              <button class="btn btn-sm btn-outline" style="color:var(--status-danger); border-color:rgba(239, 68, 68, 0.3);" onclick="deleteUserProfile(${user.id}, '${escapeHtml(user.name)}')" title="Delete User">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            `}
+          </td>
+        </tr>
+      `;
+    }).join('');
+  } catch (err) {
+    console.error('Error loading managed users:', err);
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--status-danger); padding:1.5rem;">Failed to load user accounts.</td></tr>`;
+  }
+}
+
+async function deleteUserProfile(userId, userName) {
+  if (!confirm(`Are you sure you want to delete the user account for "${userName}"? This action cannot be undone.`)) {
+    return;
+  }
+
+  try {
+    await apiRequest(`/api/users/${userId}`, { method: 'DELETE' });
+    showToast(`User account "${userName}" deleted successfully!`, 'success');
+    loadManagedUsers();
+  } catch (err) {
+    showToast(err.message || 'Failed to delete user profile', 'danger');
+  }
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  return text.replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[m]);
 }
 
 async function handleProfileFormSubmit(e) {
@@ -266,9 +326,11 @@ async function handleCreateAdminFormSubmit(e) {
   const name = document.getElementById('admin-full-name').value.trim();
   const email = document.getElementById('admin-email').value.trim();
   const password = document.getElementById('admin-password').value.trim();
+  const roleSelect = document.getElementById('newUserRole') || document.getElementById('admin-role-select');
+  const role = roleSelect ? roleSelect.value : 'STAFF';
 
   if (!name || !email || !password) {
-    showToast('Please fill in all fields to create an administrator', 'warning');
+    showToast('Please fill in all fields to create a user profile', 'warning');
     return;
   }
 
@@ -277,17 +339,18 @@ async function handleCreateAdminFormSubmit(e) {
     return;
   }
 
-  const payload = { name, email, password };
+  const payload = { name, email, password, role };
 
   try {
-    const newAdmin = await apiRequest('/api/users/create-admin', {
+    const newUser = await apiRequest('/api/users', {
       method: 'POST',
       body: JSON.stringify(payload)
     });
 
-    showToast(`New administrator "${newAdmin.name || name}" created successfully!`, 'success');
+    showToast(`User profile "${newUser.name || name}" (${role}) created successfully!`, 'success');
     document.getElementById('create-admin-form').reset();
+    loadManagedUsers();
   } catch (err) {
-    showToast(err.message || 'Failed to create administrator account', 'danger');
+    showToast(err.message || 'Failed to create user account', 'danger');
   }
 }

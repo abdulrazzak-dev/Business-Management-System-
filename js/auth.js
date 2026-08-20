@@ -31,40 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const demoGrid = document.querySelector('.demo-login-grid, .role-selector-container');
   const demoCards = document.querySelectorAll('.demo-card');
   const emailInput = document.getElementById('email');
-
-  if (showRegisterLink && showLoginLink) {
-    showRegisterLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      loginForm.style.display = 'none';
-      registerForm.style.display = 'block';
-      if (demoGrid) demoGrid.style.display = 'none';
-
-      // Clear inputs
-      if (emailInput) emailInput.value = '';
-      if (passwordInput) passwordInput.value = '';
-      const regName = document.getElementById('reg-name');
-      const regEmail = document.getElementById('reg-email');
-      if (regName) regName.value = '';
-      if (regEmail) regEmail.value = '';
-      if (regPasswordInput) regPasswordInput.value = '';
-      demoCards.forEach((c) => c.classList.remove('active'));
-    });
-
-    showLoginLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      registerForm.style.display = 'none';
-      loginForm.style.display = 'block';
-      if (demoGrid) demoGrid.style.display = 'grid';
-
-      // Clear inputs
-      if (emailInput) emailInput.value = '';
-      if (passwordInput) passwordInput.value = '';
-      demoCards.forEach((c) => c.classList.remove('active'));
-    });
-  }
 
   // Demo / Quick Login Card Selection Logic
   if (demoCards.length && emailInput && passwordInput) {

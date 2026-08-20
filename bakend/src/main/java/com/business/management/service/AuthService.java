@@ -34,8 +34,9 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(normalizedEmail, request.getPassword())
         );
 
-        User user = userRepository.findByEmail(normalizedEmail)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + normalizedEmail));
+        User user = userRepository.findByEmailIgnoreCase(request.getEmail().trim())
+                .orElse(userRepository.findByEmail(normalizedEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + request.getEmail())));
 
         if (request.getRole() != null && !request.getRole().trim().isEmpty()) {
             String selectedRole = request.getRole().trim().toUpperCase();

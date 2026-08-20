@@ -736,11 +736,11 @@ body.login-page::before,
   font-family: 'Cinzel', serif !important;
   font-weight: 1000 !important;
   font-size: 2.5rem !important;
-  background: linear-gradient(135deg, #912328 0%, #326697 50%, #1ab6ae 100%) !important;
+  background: linear-gradient(135deg, #14013f 0%, #326697 50%, #1ab6ae 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
-  filter: drop-shadow(0 2px 8px rgba(255, 180, 0, 0.35)) !important;
+  filter: drop-shadow(0 2px 8px rgba(204, 188, 152, 0.35)) !important;
   margin: 0 !important;
 }
 

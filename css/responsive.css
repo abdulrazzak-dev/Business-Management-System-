@@ -288,14 +288,44 @@ body.sidebar-collapsed .main-wrapper {
   box-sizing: border-box;
 }
 
-/* Inventory Responsive Table Container */
-.inventory-table-container {
+/* Settings Responsive Table Wrapper */
+.settings-table-wrapper {
   width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
+.settings-table-wrapper table {
+  min-width: 480px;
+  width: 100%;
+}
+
 @media (max-width: 768px) {
+  /* Settings Page Cards Stack Overhaul */
+  .content-body [style*="grid-template-columns: 2fr 1fr"],
+  .content-body [style*="grid-template-columns: 1fr 1fr"],
+  .content-body [style*="display:grid"] {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+  }
+
+  .content-body [style*="display:flex; flex-direction:column"] {
+    width: 100% !important;
+  }
+
+  .settings-table-wrapper table {
+    min-width: 480px;
+  }
+
+  #create-admin-btn,
+  #save-business-settings-btn,
+  #save-financial-settings-btn,
+  .content-body .btn-primary {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+
   /* Inventory Stat Cards Grid */
   .content-body .kpi-grid[style*="grid-template-columns"],
   .kpi-grid {

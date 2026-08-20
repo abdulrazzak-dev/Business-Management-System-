@@ -57,6 +57,21 @@ function showToast(message, type = 'info', title = '') {
   }, 4000);
 }
 
+// Sri Lankan Phone Number Utilities & Validation
+const SL_PHONE_REGEX = /^(?:(?:\+94|0094|0)\s?(?:7[01245678]|11|2[1-8]|3[1-8]|4[157]|5[12457]|6[3567]|81)\s?\d{3}\s?\d{4})$/;
+
+function formatSriLankanPhone(phone) {
+  if (!phone) return '';
+  let cleaned = phone.replace(/[^0-9+]/g, '');
+  if (cleaned.startsWith('0')) cleaned = '+94' + cleaned.substring(1);
+  if (cleaned.startsWith('0094')) cleaned = '+94' + cleaned.substring(4);
+  if (!cleaned.startsWith('+94') && cleaned.length === 9) cleaned = '+94' + cleaned;
+  if (cleaned.length === 12 && cleaned.startsWith('+94')) {
+    return `${cleaned.slice(0, 3)} ${cleaned.slice(3, 5)} ${cleaned.slice(5, 8)} ${cleaned.slice(8)}`;
+  }
+  return phone;
+}
+
 // Theme Engine
 function initTheme() {
   const savedTheme = localStorage.getItem('Golden_theme') || 'light';

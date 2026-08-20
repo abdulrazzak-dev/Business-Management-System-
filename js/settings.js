@@ -244,7 +244,7 @@ async function loadBusinessSettings() {
 
     if (nameEl) nameEl.value = settings.businessName || '';
     if (emailEl) emailEl.value = settings.businessEmail || '';
-    if (phoneEl) phoneEl.value = settings.phone || '';
+    if (phoneEl) phoneEl.value = typeof formatSriLankanPhone === 'function' ? formatSriLankanPhone(settings.phone || '') : (settings.phone || '');
     if (addressEl) addressEl.value = settings.address || '';
     if (currencyEl) currencyEl.value = settings.currency || 'USD';
     if (taxEl) taxEl.value = settings.taxRate || 8.5;

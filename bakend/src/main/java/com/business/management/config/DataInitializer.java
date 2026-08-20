@@ -25,18 +25,26 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        // Seed Admin User
-        if (userRepository.count() == 0) {
+        // Seed / Reset Admin User
+        User existingAdmin = userRepository.findByEmailIgnoreCase("admin@Golden.com").orElse(null);
+        if (existingAdmin == null) {
             User admin = User.builder()
                     .name("Alex Morgan")
                     .email("admin@Golden.com")
                     .password(passwordEncoder.encode("admin123"))
                     .role(User.Role.ADMIN)
+                    .enabled(true)
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build();
             userRepository.save(admin);
             System.out.println(">>> Sample Admin User created: admin@Golden.com / admin123");
+        } else {
+            existingAdmin.setPassword(passwordEncoder.encode("admin123"));
+            existingAdmin.setEnabled(true);
+            existingAdmin.setUpdatedAt(LocalDateTime.now());
+            userRepository.save(existingAdmin);
+            System.out.println(">>> Default Admin User updated/reset: admin@Golden.com / admin123");
         }
 
         // Seed Products

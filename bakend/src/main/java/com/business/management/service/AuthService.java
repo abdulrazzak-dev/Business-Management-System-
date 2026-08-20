@@ -28,28 +28,24 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public LoginResponse login(LoginRequest request) {
-        String normalizedEmail = request.getEmail() != null ? request.getEmail().trim().toLowerCase() : "";
+        if (request.getEmail() == null || request.getEmail().trim().isEmpty() || request.getPassword() == null || request.getPassword().trim().isEmpty()) {
+            throw new org.springframework.security.authentication.BadCredentialsException("Invalid email or password");
+        }
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(normalizedEmail, request.getPassword())
-        );
+        String rawEmail = request.getEmail().trim();
+        User user = userRepository.findByEmailIgnoreCase(rawEmail)
+                .orElseThrow(() -> new org.springframework.security.authentication.BadCredentialsException("Invalid email or password"));
 
-        User user = userRepository.findByEmailIgnoreCase(request.getEmail().trim())
-                .orElse(userRepository.findByEmail(normalizedEmail)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + request.getEmail())));
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new org.springframework.security.authentication.BadCredentialsException("Invalid email or password");
+        }
 
         if (request.getRole() != null && !request.getRole().trim().isEmpty()) {
-            String selectedRole = request.getRole().trim().toUpperCase();
+            String selectedRole = request.getRole().trim();
             String userRole = user.getRole() != null ? user.getRole().name() : "STAFF";
 
-            if (!userRole.equalsIgnoreCase(selectedRole)) {
-                if ("STAFF".equalsIgnoreCase(selectedRole)) {
-                    throw new BadRequestException("Account does not have Staff access");
-                } else if ("ADMIN".equalsIgnoreCase(selectedRole)) {
-                    throw new BadRequestException("Account does not have Administrator access");
-                } else {
-                    throw new BadRequestException("Account role mismatch for selected role");
-                }
+            if (!selectedRole.equalsIgnoreCase(userRole)) {
+                throw new org.springframework.security.authentication.BadCredentialsException("Role mismatch for this account");
             }
         }
 

@@ -711,7 +711,7 @@ body.login-page::before,
   max-width: 440px !important;
   box-sizing: border-box !important;
   border-radius: 40px 5px 40px 5px !important;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.1)) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.274), rgba(255, 255, 255, 0.1)) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
@@ -751,7 +751,7 @@ body.login-page::before,
 .login-card input[type="text"],
 .login-card input[type="password"] {
   background: rgba(255, 255, 255, 0.25) !important;
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.342) !important;
   text-transform: none !important;
   color: #ffffff !important;
   border-radius: 8px !important;

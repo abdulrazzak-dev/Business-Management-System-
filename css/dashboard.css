@@ -446,6 +446,22 @@
   font-size: 0.875rem;
 }
 
+.inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.inventory-table th, 
+.inventory-table td {
+  padding: 14px 18px;
+}
+
+body.staff-view .inventory-table th:last-child,
+body.staff-view .inventory-table td:last-child {
+  text-align: right;
+}
+
 .custom-table th {
   background-color: var(--bg-surface-subtle);
   color: var(--text-muted);

@@ -57,9 +57,17 @@ async function renderInventoryTable() {
   const filterVal = document.getElementById('inventory-filter')?.value || 'all';
   const isAdmin = isUserAdmin();
 
+  if (!isAdmin) {
+    document.body.classList.add('staff-view');
+  } else {
+    document.body.classList.remove('staff-view');
+  }
+
   const thReplenish = document.getElementById('th-stock-replenishment');
   if (thReplenish) {
-    thReplenish.style.display = isAdmin ? '' : 'none';
+    if (!isAdmin) {
+      thReplenish.remove();
+    }
   }
 
   try {

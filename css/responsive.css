@@ -254,23 +254,29 @@ body.sidebar-collapsed .main-wrapper {
     padding: 0.5rem;
   }
 
-  .modal-card {
+  .modal-card,
+  .modal-content {
     width: 95% !important;
     max-width: 95% !important;
-    max-height: 92vh;
+    max-height: 88vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
     margin: 0 auto;
   }
 
-  .modal-body {
+  .modal-body,
+  .modal-card form {
     padding: 0.875rem;
-    max-height: calc(92vh - 110px);
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    flex: 1;
   }
 
-  .modal-footer {
-    padding: 0.75rem 0.875rem;
+  .modal-footer,
+  .modal-actions {
+    flex-shrink: 0;
+    padding: 12px 16px 18px;
     flex-wrap: wrap;
     gap: 0.5rem;
   }

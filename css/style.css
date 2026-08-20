@@ -651,3 +651,25 @@ aside.sidebar::-webkit-scrollbar,
   background: var(--bg-surface-subtle);
   color: var(--text-muted);
 }
+
+/* Modal Popup Engine & Mobile Viewport Protection */
+.modal-content,
+.modal-card {
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-body,
+.modal-card form {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+}
+
+.modal-footer,
+.modal-actions {
+  flex-shrink: 0;
+  padding: 12px 16px 18px;
+}

@@ -83,6 +83,7 @@ public class UserService {
                 .email(request.getEmail().trim().toLowerCase())
                 .password(passwordEncoder.encode(request.getPassword().trim()))
                 .role(request.getRole() != null ? request.getRole() : User.Role.STAFF)
+                .enabled(true)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
@@ -107,6 +108,7 @@ public class UserService {
                 .email(request.getEmail().trim().toLowerCase())
                 .password(passwordEncoder.encode(request.getPassword().trim()))
                 .role(User.Role.ADMIN)
+                .enabled(true)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();

@@ -28,12 +28,29 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public LoginResponse login(LoginRequest request) {
+        String normalizedEmail = request.getEmail() != null ? request.getEmail().trim().toLowerCase() : "";
+
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(normalizedEmail, request.getPassword())
         );
 
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + request.getEmail()));
+        User user = userRepository.findByEmail(normalizedEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + normalizedEmail));
+
+        if (request.getRole() != null && !request.getRole().trim().isEmpty()) {
+            String selectedRole = request.getRole().trim().toUpperCase();
+            String userRole = user.getRole() != null ? user.getRole().name() : "STAFF";
+
+            if (!userRole.equalsIgnoreCase(selectedRole)) {
+                if ("STAFF".equalsIgnoreCase(selectedRole)) {
+                    throw new BadRequestException("Account does not have Staff access");
+                } else if ("ADMIN".equalsIgnoreCase(selectedRole)) {
+                    throw new BadRequestException("Account does not have Administrator access");
+                } else {
+                    throw new BadRequestException("Account role mismatch for selected role");
+                }
+            }
+        }
 
         org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(
                 user.getEmail(),

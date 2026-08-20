@@ -733,9 +733,15 @@ body.login-page::before,
 
 .login-card .login-title,
 .login-wrapper .login-title {
-  color: #26164f !important;
-  background: none !important;
-  -webkit-text-fill-color: #26164f !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 2.2rem !important;
+  background: linear-gradient(135deg, #FFE259 0%, #FFA751 50%, #FFD700 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  filter: drop-shadow(0 2px 8px rgba(255, 180, 0, 0.35)) !important;
+  margin: 0 !important;
 }
 
 .login-card .form-control,

@@ -100,11 +100,11 @@
           </div>
         </div>
 
-        <div class="grid-2col" style="display:grid; grid-template-columns: 2fr 1.2fr; gap:1.5rem; align-items:start;">
+        <div class="settings-container grid-2col" style="display:grid; grid-template-columns: 2fr 1.2fr; gap:1.5rem; align-items:start;">
           <!-- Left Column: Profile & Business Settings -->
           <div style="display:flex; flex-direction:column; gap:1.5rem;">
             <!-- User Profile & Account Settings Form Card -->
-            <div class="glass-panel table-card" style="padding:1.75rem;">
+            <div class="glass-panel table-card settings-card" style="padding:1.75rem;">
               <h3 class="table-title" style="margin-bottom:1.25rem;"><i class="fa-solid fa-id-card" style="color:var(--primary); margin-right:0.5rem;"></i> My Profile & Account Settings</h3>
               
               <form id="user-profile-form">
@@ -139,12 +139,12 @@
             </div>
 
             <!-- Business Details Form -->
-            <div id="business-settings-card" class="glass-panel table-card" style="padding:1.75rem;">
+            <div id="business-settings-card" class="glass-panel table-card settings-card" style="padding:1.75rem;">
               <h3 class="table-title" style="margin-bottom:1.25rem;"><i class="fa-solid fa-building" style="color:var(--primary); margin-right:0.5rem;"></i> Business Profile & Store Info</h3>
               
               <form id="business-settings-form">
                 <div class="form-group">
-                  <label for="settings-business-name">Business / Store Name *</label>
+                  <label for="settings-business-name">Business Name *</label>
                   <input type="text" id="settings-business-name" class="form-control" required>
                 </div>
 
@@ -173,7 +173,7 @@
             </div>
 
             <!-- Standalone Financial & Tax Defaults Card (Admin Only) -->
-            <div id="financial-settings-card" class="glass-panel table-card" style="padding:1.75rem;">
+            <div id="financial-settings-card" class="glass-panel table-card settings-card" style="padding:1.75rem;">
               <h3 class="table-title" style="margin-bottom:1.25rem;"><i class="fa-solid fa-coins" style="color:var(--secondary); margin-right:0.5rem;"></i> Financial & Tax Defaults</h3>
 
               <form id="financial-settings-form">
@@ -208,7 +208,7 @@
           <!-- Right Column: Admin Management & Appearance -->
           <div style="display:flex; flex-direction:column; gap:1.5rem;">
             <!-- Create Admin & User Management Card (Admin Only) -->
-            <div id="create-admin-card" class="glass-panel table-card" style="padding:1.75rem;">
+            <div id="create-admin-card" class="glass-panel table-card settings-card" style="padding:1.75rem;">
               <h3 class="table-title" style="margin-bottom:1.25rem;">
                 <i class="fa-solid fa-user-shield" style="color:var(--primary); margin-right:0.5rem;"></i>
                 Admin & User Management
@@ -247,14 +247,14 @@
             </div>
 
             <!-- Managed Staff / Users List Card (Admin Only) -->
-            <div id="managed-users-card" class="glass-panel table-card" style="padding:1.75rem;">
+            <div id="managed-users-card" class="glass-panel table-card settings-card" style="padding:1.75rem;">
               <h3 class="table-title" style="margin-bottom:1.25rem;">
                 <i class="fa-solid fa-users-gear" style="color:var(--primary); margin-right:0.5rem;"></i>
                 Managed Staff / Users
               </h3>
 
-              <div class="table-responsive settings-table-wrapper">
-                <table class="custom-table" id="users-table">
+              <div class="table-responsive settings-table-wrapper settings-table-responsive">
+                <table class="custom-table" id="users-table" style="min-width: 500px;">
                   <thead>
                     <tr>
                       <th>Full Name</th>

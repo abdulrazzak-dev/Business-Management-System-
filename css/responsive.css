@@ -288,39 +288,51 @@ body.sidebar-collapsed .main-wrapper {
   box-sizing: border-box;
 }
 
-/* Settings Responsive Table Wrapper */
-.settings-table-wrapper {
+/* Settings Responsive Table Container & Scoped Mobile Overhaul */
+.settings-table-wrapper,
+.settings-table-responsive {
   width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-.settings-table-wrapper table {
-  min-width: 480px;
+.settings-table-wrapper table,
+.settings-table-responsive table {
+  min-width: 500px;
   width: 100%;
 }
 
 @media (max-width: 768px) {
-  /* Settings Page Cards Stack Overhaul */
-  .content-body [style*="grid-template-columns: 2fr 1fr"],
-  .content-body [style*="grid-template-columns: 1fr 1fr"],
-  .content-body [style*="display:grid"] {
+  /* Scoped Settings Page Mobile Overhaul */
+  .settings-container {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .settings-container > div {
+    width: 100% !important;
+  }
+
+  .settings-card {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .settings-card form [style*="grid-template-columns"] {
     grid-template-columns: 1fr !important;
     width: 100% !important;
   }
 
-  .content-body [style*="display:flex; flex-direction:column"] {
-    width: 100% !important;
-  }
-
-  .settings-table-wrapper table {
-    min-width: 480px;
+  .settings-table-responsive table {
+    min-width: 500px !important;
   }
 
   #create-admin-btn,
   #save-business-settings-btn,
   #save-financial-settings-btn,
-  .content-body .btn-primary {
+  .settings-card .btn-primary {
     width: 100% !important;
     display: flex !important;
     justify-content: center !important;

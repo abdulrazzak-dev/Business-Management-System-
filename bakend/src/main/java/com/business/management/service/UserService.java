@@ -25,12 +25,16 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public List<LoginResponse.UserDto> getAllUsers() {
-        return userRepository.findAll().stream()
+        List<User> users = userRepository.findAll();
+        if (users == null || users.isEmpty()) {
+            return java.util.Collections.emptyList();
+        }
+        return users.stream()
                 .map(user -> LoginResponse.UserDto.builder()
                         .id(user.getId())
                         .name(user.getName())
                         .email(user.getEmail())
-                        .role(user.getRole().name())
+                        .role(user.getRole() != null ? user.getRole().name() : "STAFF")
                         .build())
                 .collect(Collectors.toList());
     }

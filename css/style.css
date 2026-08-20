@@ -736,7 +736,7 @@ body.login-page::before,
   font-family: 'Cinzel', serif !important;
   font-weight: 1000 !important;
   font-size: 2.5rem !important;
-  background: linear-gradient(135deg, #e9dc2f 0%, #ebe850 50%, #02504c 100%) !important;
+  background: linear-gradient(135deg, #faeb1f 0%, #faf75b 50%, #01524e 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;

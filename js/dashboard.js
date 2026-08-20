@@ -19,6 +19,11 @@ function openAddCustomerModal() {
   const form = document.getElementById('customer-form');
   if (form) form.reset();
 
+  const phoneInput = document.getElementById('customer-phone');
+  if (phoneInput) {
+    phoneInput.placeholder = '+94 77 554 4332';
+  }
+
   const modalTitle = document.getElementById('customer-modal-title');
   if (modalTitle) modalTitle.textContent = 'Add New Customer';
 

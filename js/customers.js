@@ -111,6 +111,10 @@ function openAddCustomerModal() {
   currentEditingCustomerId = null;
   document.getElementById('customer-modal-title').textContent = 'Add New Customer';
   document.getElementById('customer-form').reset();
+  const phoneInput = document.getElementById('customer-phone');
+  if (phoneInput) {
+    phoneInput.placeholder = '+94 77 554 4332';
+  }
   document.getElementById('customer-id').value = `CUST-${Math.floor(200 + Math.random() * 800)}`;
   openModal('customer-modal');
 }

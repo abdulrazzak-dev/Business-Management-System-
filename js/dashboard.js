@@ -178,11 +178,16 @@ function renderSalesOverviewChart(salesOverview) {
 
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   const textColor = isDark ? '#94a3b8' : '#64748b';
-  const gridColor = isDark ? '#334155' : '#e2e8f0';
+  const gridColor = isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.06)';
 
   const labels = salesOverview?.labels || ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   const revenueData = salesOverview?.revenueData || [1200, 1900, 1500, 2400, 2800, 3200, 2900];
   const ordersData = salesOverview?.ordersData || [15, 22, 18, 29, 35, 40, 38];
+
+  // Create gradient fills
+  const revenueGradient = ctx.createLinearGradient(0, 0, 0, 300);
+  revenueGradient.addColorStop(0, 'rgba(59, 130, 246, 0.35)');
+  revenueGradient.addColorStop(1, 'rgba(139, 92, 246, 0.0)');
 
   salesChartInstance = new Chart(ctx, {
     type: 'line',
@@ -193,21 +198,26 @@ function renderSalesOverviewChart(salesOverview) {
           label: 'Revenue (Rs.)',
           data: revenueData,
           borderColor: '#3b82f6',
-          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          backgroundColor: revenueGradient,
           fill: true,
           tension: 0.4,
           borderWidth: 3,
           pointBackgroundColor: '#3b82f6',
+          pointBorderColor: '#ffffff',
+          pointHoverRadius: 6,
           pointRadius: 4
         },
         {
           label: 'Orders',
           data: ordersData,
-          borderColor: '#8b5cf6',
+          borderColor: '#ec4899',
           backgroundColor: 'transparent',
           tension: 0.4,
           borderWidth: 2,
           borderDash: [5, 5],
+          pointBackgroundColor: '#ec4899',
+          pointBorderColor: '#ffffff',
+          pointHoverRadius: 5,
           pointRadius: 3
         }
       ]
@@ -216,11 +226,11 @@ function renderSalesOverviewChart(salesOverview) {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'top', labels: { color: textColor, font: { family: 'Plus Jakarta Sans', weight: '600' } } }
+        legend: { position: 'top', labels: { color: textColor, font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 } } }
       },
       scales: {
-        x: { grid: { color: gridColor, drawBorder: false }, ticks: { color: textColor } },
-        y: { grid: { color: gridColor, drawBorder: false }, ticks: { color: textColor } }
+        x: { grid: { color: gridColor, drawBorder: false }, ticks: { color: textColor, font: { family: 'Plus Jakarta Sans' } } },
+        y: { grid: { color: gridColor, drawBorder: false }, ticks: { color: textColor, font: { family: 'Plus Jakarta Sans' } } }
       }
     }
   });

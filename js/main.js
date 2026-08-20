@@ -71,6 +71,10 @@ function toggleTheme() {
   localStorage.setItem('Golden_theme', newTheme);
   updateThemeIcon(newTheme);
   showToast(`Switched to ${newTheme} mode`, 'info');
+
+  if (typeof loadDashboardData === 'function' && (window.location.pathname.endsWith('dashboard.html') || window.location.pathname.endsWith('dashboard'))) {
+    loadDashboardData();
+  }
 }
 
 function updateThemeIcon(theme) {

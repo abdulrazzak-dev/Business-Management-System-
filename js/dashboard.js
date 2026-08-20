@@ -89,9 +89,11 @@ async function loadDashboardData() {
   }
 }
 
-function formatCurrency(amount) {
-  return `Rs. ${Number(amount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-}
+window.addEventListener('currencyChange', () => {
+  if (typeof loadDashboardData === 'function') {
+    loadDashboardData();
+  }
+});
 
 function renderRecentTransactions(orders) {
   const container = document.getElementById('recent-transactions-list');

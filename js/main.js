@@ -72,6 +72,25 @@ function formatSriLankanPhone(phone) {
   return phone;
 }
 
+// Centralized Currency Formatter
+function formatCurrency(amount) {
+  const currency = localStorage.getItem('system_currency') || 'LKR';
+  const num = Number(amount || 0);
+
+  const symbolMap = {
+    LKR: 'Rs. ',
+    USD: '$',
+    EUR: '€',
+    GBP: '£',
+    CAD: 'CA$',
+    AUD: 'A$'
+  };
+
+  const symbol = symbolMap[currency] || 'Rs. ';
+  const formattedNum = num.toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return `${symbol}${formattedNum}`;
+}
+
 // Theme Engine
 function initTheme() {
   const savedTheme = localStorage.getItem('Golden_theme') || 'light';

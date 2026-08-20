@@ -29,6 +29,13 @@ function initReportsPage() {
       renderRevenueTrendChart(period);
     });
   });
+
+  window.addEventListener('currencyChange', () => {
+    renderReportSummaryCards();
+    renderRevenueTrendChart('weekly');
+    renderTopSellingProductsChart();
+    renderTopProductsTable();
+  });
 }
 
 async function renderReportSummaryCards() {
@@ -40,9 +47,9 @@ async function renderReportSummaryCards() {
     const totalEl = document.getElementById('report-total-revenue');
     const avgEl = document.getElementById('report-avg-order-value');
 
-    if (dailyEl) dailyEl.textContent = `Rs. ${Number(summary.dailyRevenue || 0).toFixed(2)}`;
-    if (totalEl) totalEl.textContent = `Rs. ${Number(summary.totalRevenue || 0).toFixed(2)}`;
-    if (avgEl) avgEl.textContent = `Rs. ${Number(summary.averageOrderValue || 0).toFixed(2)}`;
+    if (dailyEl) dailyEl.textContent = formatCurrency(summary.dailyRevenue || 0);
+    if (totalEl) totalEl.textContent = formatCurrency(summary.totalRevenue || 0);
+    if (avgEl) avgEl.textContent = formatCurrency(summary.averageOrderValue || 0);
   } catch (err) {
     console.error("Error loading report summary cards:", err);
   }
@@ -72,7 +79,7 @@ async function renderRevenueTrendChart(period = 'weekly') {
       data: {
         labels: labels,
         datasets: [{
-          label: 'Revenue Growth ($)',
+          label: 'Revenue Growth',
           data: data,
           backgroundColor: '#3b82f6',
           borderRadius: 6
@@ -175,7 +182,7 @@ async function renderTopProductsTable() {
       const name = tp.name || tp.productName || 'N/A';
       const category = tp.category || 'General';
       const sold = tp.sold ?? tp.unitsSold ?? 0;
-      const revenue = Number(tp.revenue ?? tp.totalRevenue ?? 0).toFixed(2);
+      const revenue = tp.revenue ?? tp.totalRevenue ?? 0;
 
       return `
         <tr>
@@ -183,7 +190,7 @@ async function renderTopProductsTable() {
           <td><strong>${name}</strong></td>
           <td><span class="badge badge-info">${category}</span></td>
           <td>${sold} units</td>
-          <td><strong>$${revenue}</strong></td>
+          <td><strong>${formatCurrency(revenue)}</strong></td>
         </tr>
       `;
     }).join('');

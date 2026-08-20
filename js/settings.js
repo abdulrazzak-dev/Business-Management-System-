@@ -246,7 +246,9 @@ async function loadBusinessSettings() {
     if (emailEl) emailEl.value = settings.businessEmail || '';
     if (phoneEl) phoneEl.value = typeof formatSriLankanPhone === 'function' ? formatSriLankanPhone(settings.phone || '') : (settings.phone || '');
     if (addressEl) addressEl.value = settings.address || '';
-    if (currencyEl) currencyEl.value = settings.currency || 'USD';
+    const savedCurrency = settings.currency || localStorage.getItem('system_currency') || 'LKR';
+    if (currencyEl) currencyEl.value = savedCurrency;
+    localStorage.setItem('system_currency', savedCurrency);
     if (taxEl) taxEl.value = settings.taxRate || 8.5;
   } catch (err) {
     showToast(err.message || 'Error loading settings', 'danger');
@@ -270,12 +272,16 @@ async function handleSettingsFormSubmit(e) {
     return;
   }
 
+  const selectedCurrency = document.getElementById('settings-currency').value;
+  localStorage.setItem('system_currency', selectedCurrency);
+  window.dispatchEvent(new CustomEvent('currencyChange', { detail: { currency: selectedCurrency } }));
+
   const payload = {
     businessName: document.getElementById('settings-business-name').value.trim(),
     businessEmail: document.getElementById('settings-business-email').value.trim(),
     phone: document.getElementById('settings-business-phone').value.trim(),
     address: document.getElementById('settings-business-address').value.trim(),
-    currency: document.getElementById('settings-currency').value,
+    currency: selectedCurrency,
     taxRate: parseFloat(document.getElementById('settings-tax-rate').value) || 0,
     theme: document.documentElement.getAttribute('data-theme') || 'light',
     notificationsEnabled: true
@@ -309,12 +315,16 @@ async function handleFinancialFormSubmit(e) {
     return;
   }
 
+  const selectedCurrency = document.getElementById('settings-currency').value;
+  localStorage.setItem('system_currency', selectedCurrency);
+  window.dispatchEvent(new CustomEvent('currencyChange', { detail: { currency: selectedCurrency } }));
+
   const payload = {
     businessName: document.getElementById('settings-business-name')?.value.trim() || '',
     businessEmail: document.getElementById('settings-business-email')?.value.trim() || '',
     phone: document.getElementById('settings-business-phone')?.value.trim() || '',
     address: document.getElementById('settings-business-address')?.value.trim() || '',
-    currency: document.getElementById('settings-currency').value,
+    currency: selectedCurrency,
     taxRate: parseFloat(document.getElementById('settings-tax-rate').value) || 0,
     theme: document.documentElement.getAttribute('data-theme') || 'light',
     notificationsEnabled: true

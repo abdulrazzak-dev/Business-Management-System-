@@ -711,11 +711,11 @@ body.login-page::before,
   max-width: 440px !important;
   box-sizing: border-box !important;
   border-radius: 40px 5px 40px 5px !important;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.137), rgba(255, 255, 255, 0.1)) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.137), rgba(255, 255, 255, 0.82)) !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
   border: 1px solid rgba(255, 255, 255, 0.185) !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.82) !important;
   z-index: 2 !important;
   position: relative !important;
   color: #ffffff46 !important;

@@ -30,6 +30,15 @@ function initCustomersPage() {
 
   const customerForm = document.getElementById('customer-form');
   if (customerForm) customerForm.addEventListener('submit', handleCustomerFormSubmit);
+
+  const phoneInput = document.getElementById('customer-phone');
+  if (phoneInput) {
+    phoneInput.addEventListener('blur', () => {
+      if (phoneInput.value.trim() && typeof formatSriLankanPhone === 'function') {
+        phoneInput.value = formatSriLankanPhone(phoneInput.value.trim());
+      }
+    });
+  }
 }
 
 async function renderCustomersTable() {
@@ -136,13 +145,22 @@ async function handleCustomerFormSubmit(e) {
 
   const name = document.getElementById('customer-name').value.trim();
   const email = document.getElementById('customer-email').value.trim();
-  const phone = document.getElementById('customer-phone').value.trim();
+  let rawPhone = document.getElementById('customer-phone').value.trim();
   const address = document.getElementById('customer-address').value.trim();
 
-  if (!name || !email || !phone) {
+  if (!name || !email || !rawPhone) {
     showToast('Please fill in Name, Email, and Phone', 'warning');
     return;
   }
+
+  const isSlValid = typeof SL_PHONE_REGEX !== 'undefined' ? SL_PHONE_REGEX.test(rawPhone) : true;
+  if (!isSlValid) {
+    showToast('Invalid Sri Lankan telephone number format. Example: +94 77 554 4332 or 0775544332', 'danger');
+    return;
+  }
+
+  const phone = typeof formatSriLankanPhone === 'function' ? formatSriLankanPhone(rawPhone) : rawPhone;
+  document.getElementById('customer-phone').value = phone;
 
   const payload = { name, email, phone, address };
 

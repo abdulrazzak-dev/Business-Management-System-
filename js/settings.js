@@ -124,20 +124,20 @@ async function loadManagedUsers() {
 
   try {
     const users = await apiRequest('/api/users');
-    if (!users || !users.length) {
+    if (!users || !Array.isArray(users) || users.length === 0) {
       tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:1.5rem;">No user profiles found.</td></tr>`;
       return;
     }
 
     tbody.innerHTML = users.map(user => {
-      const isSelf = currentUserId && (user.id === currentUserId);
+      const isSelf = currentUserId && (user.id === currentUserId || String(user.id) === String(currentUserId));
       const roleClass = user.role === 'ADMIN' ? 'badge-primary' : 'badge-info';
       const roleLabel = user.role === 'ADMIN' ? 'ADMIN' : 'STAFF';
 
       return `
         <tr>
-          <td><strong>${escapeHtml(user.name)}</strong>${isSelf ? ' <span style="font-size:0.75rem; color:var(--primary);">(You)</span>' : ''}</td>
-          <td>${escapeHtml(user.email)}</td>
+          <td><strong>${escapeHtml(user.name || 'User')}</strong>${isSelf ? ' <span style="font-size:0.75rem; color:var(--primary);">(You)</span>' : ''}</td>
+          <td>${escapeHtml(user.email || 'N/A')}</td>
           <td><span class="badge ${roleClass}">${roleLabel}</span></td>
           <td style="text-align:right;">
             ${isSelf ? `
@@ -145,7 +145,7 @@ async function loadManagedUsers() {
                 <i class="fa-solid fa-trash"></i>
               </button>
             ` : `
-              <button class="btn btn-sm btn-outline" style="color:var(--status-danger); border-color:rgba(239, 68, 68, 0.3);" onclick="deleteUserProfile(${user.id}, '${escapeHtml(user.name)}')" title="Delete User">
+              <button class="btn btn-sm btn-outline" style="color:var(--status-danger); border-color:rgba(239, 68, 68, 0.3);" onclick="deleteUserProfile(${user.id}, '${escapeHtml(user.name || 'User')}')" title="Delete User">
                 <i class="fa-solid fa-trash"></i>
               </button>
             `}
@@ -154,8 +154,8 @@ async function loadManagedUsers() {
       `;
     }).join('');
   } catch (err) {
-    console.error('Error loading managed users:', err);
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--status-danger); padding:1.5rem;">Failed to load user accounts.</td></tr>`;
+    console.warn('Unable to load managed users from /api/users:', err.message || err);
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:1.5rem;"><i class="fa-solid fa-triangle-exclamation" style="color:var(--status-warning); margin-right:0.375rem;"></i> Unable to fetch user profiles from server.</td></tr>`;
   }
 }
 

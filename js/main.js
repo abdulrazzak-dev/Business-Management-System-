@@ -145,9 +145,9 @@ function updateSidebarUserProfile() {
 
   try {
     const user = JSON.parse(userJson);
-    const avatarEl = document.querySelector('.sidebar-footer .avatar');
-    const nameEl = document.querySelector('.sidebar-footer .user-name');
-    const roleEl = document.querySelector('.sidebar-footer .user-role');
+    const avatarEl = document.querySelector('.sidebar-user .avatar, .sidebar-footer .avatar');
+    const nameEl = document.querySelector('.sidebar-user .user-name, .sidebar-footer .user-name');
+    const roleEl = document.querySelector('.sidebar-user .user-role, .sidebar-footer .user-role');
 
     if (nameEl && user.name) {
       nameEl.textContent = user.name;

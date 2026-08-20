@@ -24,6 +24,7 @@ body.sidebar-collapsed .sidebar .nav-item {
   padding: 0.875rem 0;
 }
 
+body.sidebar-collapsed .sidebar .sidebar-user,
 body.sidebar-collapsed .sidebar .sidebar-footer {
   padding: 1rem 0.5rem;
 }

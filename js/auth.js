@@ -45,6 +45,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Demo / Quick Login Card Selection Logic
+  const demoCards = document.querySelectorAll('.demo-card');
+  const emailInput = document.getElementById('email');
+
+  if (demoCards.length && emailInput && passwordInput) {
+    demoCards.forEach((card) => {
+      card.addEventListener('click', () => {
+        const email = card.getAttribute('data-email');
+        const password = card.getAttribute('data-password');
+
+        if (email) emailInput.value = email;
+        if (password) passwordInput.value = password;
+
+        demoCards.forEach((c) => c.classList.remove('active'));
+        card.classList.add('active');
+      });
+    });
+  }
+
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();

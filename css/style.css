@@ -675,15 +675,20 @@ aside.sidebar::-webkit-scrollbar,
 }
 
 /* Login Backdrop Frosted Glassmorphism Engine with Back.png */
-.login-wrapper,
 body.login-page,
+.login-wrapper,
 .auth-container,
 .auth-wrapper {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url('../Back.png') no-repeat center center / cover, #0f172a !important;
+  background-color: #0f172a !important;
+  background-image: url('Back.png'), url('../Back.png'), url('/Back.png') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
   position: relative;
   overflow: hidden;
 }

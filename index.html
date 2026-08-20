@@ -25,11 +25,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #0b1329;
-      background-image: 
-        radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.45) 0%, transparent 45%),
-        radial-gradient(circle at 85% 80%, rgba(6, 182, 212, 0.4) 0%, transparent 45%),
-        radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 60%);
+      background: url('Back.png') no-repeat center center / cover, #0f172a;
       padding: 1.5rem;
       position: relative;
       overflow: hidden;
@@ -39,24 +35,25 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(24px) saturate(180%);
-      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      background: rgba(15, 23, 42, 0.45);
       z-index: 1;
     }
 
     .login-card {
-      background: #ffffff !important;
+      background: rgba(255, 255, 255, 0.08) !important;
+      backdrop-filter: blur(18px) saturate(180%);
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
+      border-radius: 20px !important;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
       z-index: 2;
       position: relative;
       width: 90%;
       max-width: 420px;
       padding: 2.5rem;
-      border-radius: 24px;
-      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(255, 255, 255, 0.2);
       box-sizing: border-box;
       overflow: hidden;
+      color: #ffffff;
       animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -77,30 +74,89 @@
       font-size: 1.5rem;
       font-weight: 800;
       letter-spacing: -0.02em;
+      color: #ffffff;
     }
 
     .login-subtitle {
       font-size: 0.875rem;
-      color: var(--text-muted);
+      color: rgba(255, 255, 255, 0.7);
       margin-top: 0.25rem;
+    }
+
+    .login-form label, #login-form label {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      display: block;
+    }
+
+    .input-icon-group {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon-group i.fa-regular,
+    .input-icon-group i.fa-solid {
+      position: absolute;
+      left: 0;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .input-icon-group i.password-toggle {
+      left: auto;
+      right: 0;
+      cursor: pointer;
+    }
+
+    .form-control, #login-form .form-control {
+      border: none !important;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.5) !important;
+      background: transparent !important;
+      color: #ffffff !important;
+      border-radius: 0 !important;
+      padding: 0.625rem 2rem 0.625rem 1.75rem !important;
+      width: 100%;
+      box-sizing: border-box;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-control:focus, #login-form .form-control:focus {
+      border-bottom-color: #ffffff !important;
+      box-shadow: none !important;
+    }
+
+    .form-control::placeholder, #login-form .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.5) !important;
     }
 
     .login-footer-links {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 0.5rem;
+      margin-top: 1rem;
       font-size: 0.8125rem;
+      color: rgba(255, 255, 255, 0.85);
     }
 
-    .demo-credentials-alert {
-      background: var(--primary-light);
-      border: 1px dashed var(--primary);
-      border-radius: var(--radius-md);
-      padding: 0.875rem;
-      margin-bottom: 1.5rem;
-      font-size: 0.8125rem;
-      color: var(--text-main);
+    .login-footer-links a {
+      color: #ffffff !important;
+    }
+
+    #login-form button[type="submit"], .btn-login-submit {
+      background: #ffffff !important;
+      color: #0f172a !important;
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+      border: none !important;
+      padding: 0.75rem 1.25rem;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    #login-form button[type="submit"]:hover, .btn-login-submit:hover {
+      background: rgba(255, 255, 255, 0.9) !important;
+      transform: translateY(-1px);
     }
 
     .role-cards-container, .role-selector-container, .role-options, .demo-login-grid {
@@ -121,23 +177,24 @@
       min-width: 0;
       box-sizing: border-box;
       width: 100%;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      background: var(--bg-surface-subtle, rgba(255, 255, 255, 0.03));
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
       cursor: pointer;
       transition: all 0.2s ease;
       user-select: none;
+      color: #ffffff;
     }
 
     .role-card:hover, .demo-card:hover {
-      border-color: var(--primary);
-      background: rgba(59, 130, 246, 0.05);
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.12);
     }
 
     .role-card.active, .demo-card.active {
-      border-color: var(--primary);
-      background: rgba(59, 130, 246, 0.1);
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+      border-color: #ffffff;
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
     }
 
     .role-title, .demo-card-title {
@@ -145,7 +202,7 @@
       font-weight: 600;
       margin: 0;
       white-space: nowrap;
-      color: var(--text-main);
+      color: #ffffff;
     }
 
     .role-badge-wrapper {
@@ -166,19 +223,19 @@
     }
 
     .badge-admin, .demo-badge-admin {
-      background: rgba(99, 102, 241, 0.15);
-      color: #818cf8;
+      background: rgba(129, 140, 248, 0.25);
+      color: #a5b4fc;
     }
 
     .badge-staff, .demo-badge-staff {
-      background: rgba(16, 185, 129, 0.15);
-      color: #34d399;
+      background: rgba(52, 211, 153, 0.25);
+      color: #6ee7b7;
     }
 
     .role-desc, .demo-card-desc {
       font-size: 0.75rem;
       line-height: 1.35;
-      color: #64748b;
+      color: rgba(255, 255, 255, 0.7);
       margin: 0;
       word-break: normal;
       overflow-wrap: break-word;

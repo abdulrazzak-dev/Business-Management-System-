@@ -14,6 +14,9 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query("{ 'email': { $regex: '^?0$', $options: 'i' } }")
     Optional<User> findByEmailIgnoreCase(String email);
 
+    @Query("{ '$or': [ { 'email': { $regex: '^?0$', $options: 'i' } }, { 'name': { $regex: '^?0$', $options: 'i' } } ] }")
+    Optional<User> findByNameOrEmail(String identifier);
+
     Boolean existsByEmail(String email);
     Boolean existsByEmailIgnoreCase(String email);
 }

@@ -32,12 +32,13 @@ public class AuthService {
             throw new org.springframework.security.authentication.BadCredentialsException("Invalid email or password");
         }
 
-        String rawEmail = request.getEmail().trim();
-        User user = userRepository.findByEmailIgnoreCase(rawEmail)
-                .orElseThrow(() -> new org.springframework.security.authentication.BadCredentialsException("Invalid email or password"));
+        String rawIdentifier = request.getEmail().trim();
+        User user = userRepository.findByNameOrEmail(rawIdentifier)
+                .orElseGet(() -> userRepository.findByEmailIgnoreCase(rawIdentifier)
+                        .orElseThrow(() -> new org.springframework.security.authentication.BadCredentialsException("Invalid username/email or password")));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new org.springframework.security.authentication.BadCredentialsException("Invalid email or password");
+            throw new org.springframework.security.authentication.BadCredentialsException("Invalid username/email or password");
         }
 
         if (request.getRole() != null && !request.getRole().trim().isEmpty()) {

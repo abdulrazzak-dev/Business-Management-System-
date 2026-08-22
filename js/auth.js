@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const password = document.getElementById('password').value.trim();
 
       if (!email || !password) {
-        showToast('Please enter both email and password', 'warning');
+        showToast('Please enter both email/username and password', 'warning');
         return;
       }
 

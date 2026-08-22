@@ -663,9 +663,13 @@ aside.sidebar::-webkit-scrollbar,
 
 .modal-body,
 .modal-card form {
-  overflow-y: auto;
+  overflow-y: auto !important ;
+  overflow-x: hidden !important ;
   -webkit-overflow-scrolling: touch;
   flex: 1;
+}
+.modal-body form {
+  overflow: visible !important;
 }
 
 .modal-footer,

@@ -26,11 +26,13 @@ public class OrderRequest {
 
     @Data
     public static class OrderItemRequest {
-        @NotNull(message = "Product ID is required")
         private String productId;
+        private String productName;
 
         @NotNull(message = "Quantity is required")
         @Positive(message = "Quantity must be greater than zero")
         private Integer quantity;
+
+        private BigDecimal price;
     }
 }

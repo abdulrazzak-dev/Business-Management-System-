@@ -136,6 +136,74 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    public Order updateOrder(String id, OrderRequest request) {
+        Order order = getOrderById(id);
+
+        if (request.getCustomerId() != null && !request.getCustomerId().trim().isEmpty()) {
+            order.setCustomerId(request.getCustomerId());
+            customerRepository.findById(request.getCustomerId()).ifPresent(customer -> {
+                order.setCustomerName(customer.getName());
+            });
+        } else if (request.getCustomerName() != null && !request.getCustomerName().trim().isEmpty()) {
+            order.setCustomerName(request.getCustomerName());
+        }
+
+        if (request.getPaymentMethod() != null) {
+            order.setPaymentMethod(request.getPaymentMethod());
+        }
+
+        if (request.getStatus() != null) {
+            try {
+                order.setStatus(Order.OrderStatus.valueOf(request.getStatus().toUpperCase()));
+            } catch (IllegalArgumentException ignored) {}
+        }
+
+        if (request.getItems() != null && !request.getItems().isEmpty()) {
+            List<OrderItem> updatedItems = new ArrayList<>();
+            BigDecimal subtotal = BigDecimal.ZERO;
+
+            for (OrderRequest.OrderItemRequest itemReq : request.getItems()) {
+                String prodName = itemReq.getProductName();
+                BigDecimal price = itemReq.getPrice();
+                String prodId = itemReq.getProductId();
+
+                if (prodId != null && !prodId.trim().isEmpty()) {
+                    Product p = productRepository.findById(prodId).orElse(null);
+                    if (p != null) {
+                        if (prodName == null || prodName.trim().isEmpty()) prodName = p.getName();
+                        if (price == null) price = p.getPrice();
+                    }
+                }
+                if (prodName == null || prodName.trim().isEmpty()) prodName = "Item";
+                if (price == null) price = BigDecimal.ZERO;
+                int qty = itemReq.getQuantity() != null ? itemReq.getQuantity() : 1;
+
+                BigDecimal itemSubtotal = price.multiply(BigDecimal.valueOf(qty));
+                subtotal = subtotal.add(itemSubtotal);
+
+                updatedItems.add(OrderItem.builder()
+                        .productId(prodId)
+                        .productName(prodName)
+                        .quantity(qty)
+                        .price(price)
+                        .subtotal(itemSubtotal)
+                        .build());
+            }
+
+            BigDecimal taxRate = new BigDecimal("0.085");
+            BigDecimal tax = subtotal.multiply(taxRate).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal totalAmount = subtotal.add(tax);
+
+            order.setItems(updatedItems);
+            order.setSubtotal(subtotal);
+            order.setTax(tax);
+            order.setTotalAmount(totalAmount);
+        }
+
+        order.setUpdatedAt(LocalDateTime.now());
+        return orderRepository.save(order);
+    }
+
     public void deleteOrder(String id) {
         Order order = getOrderById(id);
         orderRepository.delete(order);

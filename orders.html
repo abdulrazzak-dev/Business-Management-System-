@@ -235,17 +235,17 @@
     </div>
   </div>
 
-  <!-- View Order Details Modal -->
+  <!-- View / Edit Order Details Modal -->
   <div id="view-order-modal" class="modal-backdrop">
-    <div class="modal-card" style="max-width:540px;">
+    <div class="modal-card" style="max-width:760px; width:95%;">
       <div class="modal-header">
-        <h3 class="modal-title">Order Details</h3>
+        <h3 class="modal-title" id="view-order-modal-title">Order Details & Editing</h3>
         <button class="modal-close-btn" onclick="closeModal('view-order-modal')"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="modal-body" id="view-order-details-body">
         <!-- Rendered dynamically -->
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" id="view-order-modal-footer" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
         <button class="btn btn-secondary btn-sm" onclick="closeModal('view-order-modal')">Close</button>
       </div>
     </div>
